@@ -29,13 +29,13 @@ SOURCES += \
         graph.cpp \
         main.cpp \
         mainwindow.cpp \
-        vertex.cpp
+        node.cpp
 
 HEADERS += \
         edge.hpp \
         graph.hpp \
         mainwindow.h \
-        vertex.hpp
+        node.hpp
 
 FORMS += \
         mainwindow.ui

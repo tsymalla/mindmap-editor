@@ -1,62 +1,62 @@
-#include "vertex.hpp"
+#include "Node.hpp"
 #include <iostream>
 #include <assert.h>
 
-Vertex::Vertex(const std::string& name): _parentVertex(nullptr), _name(name)
+Node::Node(const std::string& name): _parentNode(nullptr), _name(name)
 {
 }
 
-Vertex::Vertex(Vertex* parentVertex, const std::string & name): _parentVertex(parentVertex), _name(name)
+Node::Node(Node* parentNode, const std::string & name): _parentNode(parentNode), _name(name)
 {
 }
 
-Vertex::~Vertex()
+Node::~Node()
 {
     _siblings.clear();
 }
 
-Vertex* Vertex::addSibling(const std::string& name)
+Node* Node::addSibling(const std::string& name)
 {
-    auto sibling = std::make_unique<Vertex>(this, name);
+    auto sibling = std::make_unique<Node>(this, name);
     _siblings.emplace_back(std::move(sibling));
 
     return getSiblingByName(name);
 }
 
-void Vertex::setParent(Vertex* const parent)
+void Node::setParent(Node* const parent)
 {
     assert(parent != nullptr);
 
-    _parentVertex = parent;
+    _parentNode = parent;
 }
 
-void Vertex::setName(const std::string& name)
+void Node::setName(const std::string& name)
 {
     assert(!name.empty());
     _name = name;
 }
 
-void Vertex::setContent(const std::string& content)
+void Node::setContent(const std::string& content)
 {
     _content = content;
 }
 
-std::vector<std::unique_ptr<Vertex>> const& Vertex::getSiblings() const
+std::vector<std::unique_ptr<Node>> const& Node::getSiblings() const
 {
     return _siblings;
 }
 
-std::string Vertex::getName() const
+std::string Node::getName() const
 {
     return _name;
 }
 
-std::string Vertex::getContent() const
+std::string Node::getContent() const
 {
     return _content;
 }
 
-Vertex* Vertex::getSiblingByName(const std::string& name) const
+Node* Node::getSiblingByName(const std::string& name) const
 {
     for (const auto& sibling : _siblings)
     {
@@ -69,60 +69,60 @@ Vertex* Vertex::getSiblingByName(const std::string& name) const
     return nullptr;
 }
 
-bool Vertex::hasSiblings() const
+bool Node::hasSiblings() const
 {
     return (_siblings.size() > 0);
 }
 
-void Vertex::setX(double x)
+void Node::setX(double x)
 {
     _metaData.x = x;
 }
 
-void Vertex::setY(double y)
+void Node::setY(double y)
 {
     _metaData.y = y;
 }
 
-void Vertex::setWidth(double width)
+void Node::setWidth(double width)
 {
     _metaData.width = width;
 }
 
-void Vertex::setHeight(double height)
+void Node::setHeight(double height)
 {
     _metaData.height = height;
 }
 
-auto Vertex::getX() const
+auto Node::getX() const
 {
     return _metaData.x;
 }
 
-auto Vertex::getY() const
+auto Node::getY() const
 {
     return _metaData.y;
 }
 
-auto Vertex::getWidth() const
+auto Node::getWidth() const
 {
     return _metaData.width;
 }
 
-auto Vertex::getHeight() const
+auto Node::getHeight() const
 {
     return _metaData.height;
 }
 
-std::ostream& Vertex::printTree(std::ostream& os, Vertex* parent, int& indent)
+std::ostream& Node::printTree(std::ostream& os, Node* parent, int& indent)
 {
 #define ADD_INDENT for (auto i = 0; i < indent; ++i) { os << "\t"; }
-#define ECHO_VERTEX(x) os << x->getName() << " - " << x->getContent();
+#define ECHO_Node(x) os << x->getName() << " - " << x->getContent();
     if (parent == nullptr)
     {
         ++indent;
         ADD_INDENT;
-        ECHO_VERTEX(this);
+        ECHO_Node(this);
     }
     os << std::endl;
 
@@ -131,7 +131,7 @@ std::ostream& Vertex::printTree(std::ostream& os, Vertex* parent, int& indent)
         ++indent;
 
         ADD_INDENT;
-        ECHO_VERTEX(sibling);
+        ECHO_Node(sibling);
 
         if (sibling->hasSiblings())
         {

@@ -1,11 +1,11 @@
-#ifndef VERTEX_HPP
-#define VERTEX_HPP
+#ifndef Node_HPP
+#define Node_HPP
 
 #include <vector>
 #include <memory>
 #include <string>
 
-class Vertex
+class Node
 {
 private:
     struct Meta
@@ -16,27 +16,27 @@ private:
         double height;
     };
 
-    Vertex* _parentVertex;
-    std::vector<std::unique_ptr<Vertex>> _siblings;
+    Node* _parentNode;
+    std::vector<std::unique_ptr<Node>> _siblings;
     std::string _name;
     std::string _content;
     Meta _metaData;
 
 public:
-    Vertex(const std::string& name);
-    Vertex(Vertex* parentVertex, const std::string& name);
+    Node(const std::string& name);
+    Node(Node* parentNode, const std::string& name);
 
-    virtual ~Vertex();
+    virtual ~Node();
 
-    Vertex* addSibling(const std::string& name);
-    void setParent(Vertex* const parent);
+    Node* addSibling(const std::string& name);
+    void setParent(Node* const parent);
     void setName(const std::string& name);
     void setContent(const std::string& content);
 
-    std::vector<std::unique_ptr<Vertex>> const& getSiblings() const;
+    std::vector<std::unique_ptr<Node>> const& getSiblings() const;
     std::string getName() const;
     std::string getContent() const;
-    Vertex* getSiblingByName(const std::string& name) const;
+    Node* getSiblingByName(const std::string& name) const;
     bool hasSiblings() const;
 
     void setX(double x);
@@ -49,7 +49,7 @@ public:
     auto getWidth() const;
     auto getHeight() const;
 
-    std::ostream& printTree(std::ostream& os, Vertex* parent, int& indent);
+    std::ostream& printTree(std::ostream& os, Node* parent, int& indent);
 };
 
-#endif // VERTEX_HPP
+#endif // Node_HPP
