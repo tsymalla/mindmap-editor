@@ -9,7 +9,8 @@
 class Graph
 {
 private:
-    std::unordered_map<size_t, std::unique_ptr<Node>> _vertices;
+    size_t _lastNode;
+    std::unordered_map<size_t, std::unique_ptr<Node>> _nodes;
     std::vector<std::unique_ptr<Edge>> _edges;
 
 public:
@@ -18,6 +19,10 @@ public:
     Graph(Graph&& rhs) = default;
 
     virtual ~Graph();
+
+    void connectNodes(size_t from, size_t to);
+    size_t addNode(const std::string& content);
+    Node* getNode(const size_t id) const;
 };
 
 #endif // GRAPH_HPP

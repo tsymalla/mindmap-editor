@@ -16,28 +16,16 @@ private:
         double height;
     };
 
-    Node* _parentNode;
-    std::vector<std::unique_ptr<Node>> _siblings;
-    std::string _name;
     std::string _content;
     Meta _metaData;
 
 public:
-    Node(const std::string& name);
-    Node(Node* parentNode, const std::string& name);
+    Node(const std::string& content);
 
     virtual ~Node();
 
-    Node* addSibling(const std::string& name);
-    void setParent(Node* const parent);
-    void setName(const std::string& name);
     void setContent(const std::string& content);
-
-    std::vector<std::unique_ptr<Node>> const& getSiblings() const;
-    std::string getName() const;
     std::string getContent() const;
-    Node* getSiblingByName(const std::string& name) const;
-    bool hasSiblings() const;
 
     void setX(double x);
     void setY(double y);
@@ -48,8 +36,6 @@ public:
     auto getY() const;
     auto getWidth() const;
     auto getHeight() const;
-
-    std::ostream& printTree(std::ostream& os, Node* parent, int& indent);
 };
 
 #endif // Node_HPP
