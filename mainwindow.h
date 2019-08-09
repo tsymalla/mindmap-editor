@@ -26,6 +26,7 @@ private:
     QGraphicsScene *mindmapScene;
 
     Graph _graph;
+    size_t _root;
 
     void _drawMindmap();
 };

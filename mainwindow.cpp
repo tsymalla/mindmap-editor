@@ -11,10 +11,10 @@ MainWindow::MainWindow(QWidget *parent) :
     mindmapScene = new QGraphicsScene(this);
     ui->mindmapView->setScene(mindmapScene);
 
-    auto id = _graph.addNode("Mindmap");
-    auto id2 = _graph.addNode("Test");
+    _root = _graph.addNode("Mindmap");
+    auto id2 = _graph.addNode();
 
-    _graph.connectNodes(id, id2);
+    _graph.connectNodes(_root, id2);
     _drawMindmap();
 }
 
@@ -57,9 +57,8 @@ void MainWindow::_drawMindmap()
 
 void MainWindow::on_actionAdd_Node_triggered()
 {
-    auto id = _graph.getLatestNode();
     auto id2 = _graph.addNode();
 
-    _graph.connectNodes(id, id2);
+    _graph.connectNodes(_root, id2);
     _drawMindmap();
 }

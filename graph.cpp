@@ -1,7 +1,8 @@
 #include "graph.hpp"
 #include <mutex>
+#include <cmath>
 
-Graph::Graph()
+Graph::Graph(): _lastNode(0)
 {
 }
 
@@ -41,8 +42,8 @@ size_t Graph::addNode(const std::string &content)
     }
 
     auto node = std::make_unique<Node>(actualContent);
-    node->setX(static_cast<double>(_lastNode) * 80.0);
-    node->setY(static_cast<double>(_lastNode) * 80.0);
+    node->setX(std::cos(static_cast<double>(_lastNode)) * 250.0);
+    node->setY(std::sin(static_cast<double>(_lastNode)) * 250.0);
     node->setWidth(120.0);
     node->setHeight(40.0);
 
