@@ -12,6 +12,9 @@ private:
 
 public:
     Edge(size_t from, size_t to, const std::string& label);
+
+    size_t getFrom() const;
+    size_t getTo() const;
 };
 
 #endif // EDGE_HPP

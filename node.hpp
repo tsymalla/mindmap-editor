@@ -32,10 +32,10 @@ public:
     void setWidth(double width);
     void setHeight(double height);
 
-    auto getX() const;
-    auto getY() const;
-    auto getWidth() const;
-    auto getHeight() const;
+    double getX() const;
+    double getY() const;
+    double getWidth() const;
+    double getHeight() const;
 };
 
 #endif // Node_HPP

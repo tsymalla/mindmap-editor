@@ -22,6 +22,11 @@ void Graph::connectNodes(size_t from, size_t to)
     _edges.push_back(std::move(edge));
 }
 
+size_t Graph::addNode()
+{
+    return addNode("");
+}
+
 size_t Graph::addNode(const std::string &content)
 {
     std::mutex m;
@@ -29,7 +34,18 @@ size_t Graph::addNode(const std::string &content)
 
     ++_lastNode;
 
-    auto node = std::make_unique<Node>(content);
+    auto actualContent = content;
+    if (content.empty())
+    {
+        actualContent = "Node " + std::to_string(_lastNode);
+    }
+
+    auto node = std::make_unique<Node>(actualContent);
+    node->setX(static_cast<double>(_lastNode) * 80.0);
+    node->setY(static_cast<double>(_lastNode) * 80.0);
+    node->setWidth(120.0);
+    node->setHeight(40.0);
+
     _nodes.insert(std::make_pair(_lastNode, std::move(node)));
 
     return _lastNode;
@@ -38,4 +54,19 @@ size_t Graph::addNode(const std::string &content)
 Node *Graph::getNode(const size_t id) const
 {
     return (_nodes.at(id) != nullptr) ? _nodes.at(id).get() : nullptr;
+}
+
+size_t Graph::getLatestNode() const
+{
+    return _lastNode;
+}
+
+const std::vector<std::unique_ptr<Edge>>& Graph::getEdges() const
+{
+    return _edges;
+}
+
+const Graph::NodeMap &Graph::getNodes() const
+{
+    return _nodes;
 }

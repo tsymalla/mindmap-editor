@@ -1,6 +1,7 @@
 #include "Node.hpp"
 #include <iostream>
 #include <assert.h>
+#include <QDebug>
 
 Node::Node(const std::string& content):  _content(content)
 {
@@ -8,6 +9,7 @@ Node::Node(const std::string& content):  _content(content)
 
 Node::~Node()
 {
+    qDebug() << "Destructing node";
 }
 
 void Node::setContent(const std::string& content)
@@ -40,22 +42,22 @@ void Node::setHeight(double height)
     _metaData.height = height;
 }
 
-auto Node::getX() const
+double Node::getX() const
 {
     return _metaData.x;
 }
 
-auto Node::getY() const
+double Node::getY() const
 {
     return _metaData.y;
 }
 
-auto Node::getWidth() const
+double Node::getWidth() const
 {
     return _metaData.width;
 }
 
-auto Node::getHeight() const
+double Node::getHeight() const
 {
     return _metaData.height;
 }
