@@ -12,6 +12,7 @@ int main()
 	test2->addSibling("Test2.1");
 	test2->addSibling("Test2.2");
 	test2->addSibling("Test2.3");
+	test2->setContent("Hi, ich bims");
 
 	auto test3 = node->addSibling("Test3");
 	auto test31 = test3->addSibling("Test3.1");

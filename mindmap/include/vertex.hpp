@@ -8,10 +8,19 @@
 class Vertex
 {
 private:
+	struct Meta
+	{
+		double x;
+		double y;
+		double width;
+		double height;
+	};
+
 	Vertex* _parentVertex;
 	std::vector<std::unique_ptr<Vertex>> _siblings;
 	std::string _name;
 	std::string _content;
+	Meta _metaData;
 
 public:
 	Vertex(const std::string& name);
@@ -29,6 +38,16 @@ public:
 	std::string getContent() const;
 	Vertex* getSiblingByName(const std::string& name) const;
 	bool hasSiblings() const;
+
+	void setX(double x);
+	void setY(double y);
+	void setWidth(double width);
+	void setHeight(double height);
+
+	auto getX() const;
+	auto getY() const;
+	auto getWidth() const;
+	auto getHeight() const;
 
 	std::ostream& printTree(std::ostream& os, Vertex* parent, int& indent);
 };

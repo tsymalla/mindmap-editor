@@ -17,7 +17,7 @@ Vertex::~Vertex()
 
 Vertex* Vertex::addSibling(const std::string& name)
 {
-	auto sibling = std::make_unique<Vertex>(name);
+	auto sibling = std::make_unique<Vertex>(this, name);
 	_siblings.emplace_back(std::move(sibling));
 
 	return getSiblingByName(name);
@@ -74,14 +74,55 @@ bool Vertex::hasSiblings() const
 	return (_siblings.size() > 0);
 }
 
+void Vertex::setX(double x)
+{
+	_metaData.x = x;
+}
+
+void Vertex::setY(double y)
+{
+	_metaData.y = y;
+}
+
+void Vertex::setWidth(double width)
+{
+	_metaData.width = width;
+}
+
+void Vertex::setHeight(double height)
+{
+	_metaData.height = height;
+}
+
+auto Vertex::getX() const
+{
+	return _metaData.x;
+}
+
+auto Vertex::getY() const
+{
+	return _metaData.y;
+}
+
+auto Vertex::getWidth() const
+{
+	return _metaData.width;
+}
+
+auto Vertex::getHeight() const
+{
+	return _metaData.height;
+}
+
 std::ostream& Vertex::printTree(std::ostream& os, Vertex* parent, int& indent)
 {
 #define ADD_INDENT for (auto i = 0; i < indent; ++i) { os << "\t"; }
+#define ECHO_VERTEX(x) os << x->getName() << " - " << x->getContent();
 	if (parent == nullptr)
 	{
 		++indent;
 		ADD_INDENT;
-		os << getName();
+		ECHO_VERTEX(this);
 	}
 	os << std::endl;
 
@@ -90,7 +131,7 @@ std::ostream& Vertex::printTree(std::ostream& os, Vertex* parent, int& indent)
 		++indent;
 
 		ADD_INDENT;
-		os << sibling->getName();
+		ECHO_VERTEX(sibling);
 
 		if (sibling->hasSiblings())
 		{
