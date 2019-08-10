@@ -1,11 +1,10 @@
 #include "mindmapnode.hpp"
 
-MindmapNode::MindmapNode(size_t nodeId, Node *node, QBrush brush, QPen pen, QFont font): _nodeId(nodeId)
+MindmapNode::MindmapNode(size_t nodeId, Node *node, const QBrush& brush, const QPen& pen, const QFont& font): _nodeId(nodeId),
+                                                                                                              _brush(brush),
+                                                                                                              _pen(pen),
+                                                                                                              _font(font)
 {
-    _brush = brush;
-    _pen = pen;
-    _font = font;
-
     onContentChanged(node->getContent());
 
     setRect(node->getX(), node->getY(), node->getWidth(), node->getHeight());

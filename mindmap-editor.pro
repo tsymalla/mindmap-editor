@@ -29,6 +29,7 @@ SOURCES += \
         graph.cpp \
         main.cpp \
         mainwindow.cpp \
+        mindmapedge.cpp \
         mindmapnode.cpp \
         mindmapscene.cpp \
         node.cpp
@@ -37,6 +38,7 @@ HEADERS += \
         edge.hpp \
         graph.hpp \
         mainwindow.h \
+        mindmapedge.hpp \
         mindmapnode.hpp \
         mindmapscene.hpp \
         node.hpp

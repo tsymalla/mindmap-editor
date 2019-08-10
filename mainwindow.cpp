@@ -13,35 +13,16 @@ MainWindow::MainWindow(QWidget *parent) :
     mindmapScene = new MindmapScene(this);
     ui->mindmapView->setScene(mindmapScene);
 
-    _root = _graph.addNode("Mindmap");
-    auto id2 = _graph.addNode();
-
-    _graph.connectNodes(_root, id2);
-
     connect(this, &MainWindow::nodeAdded, mindmapScene, &MindmapScene::nodeAdded);
+    connect(this, &MainWindow::edgeAdded, mindmapScene, &MindmapScene::edgeAdded);
+
+    _root = _graph.addNode("Mindmap");
+    emit(nodeAdded(_root, _graph.getNode(_root)));
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-}
-
-void MainWindow::_drawMindmap()
-{
-
-    for (const auto& edge: _graph.getEdges())
-    {
-        Node* from = _graph.getNode(edge->getFrom());
-        Node* to = _graph.getNode(edge->getTo());
-
-        /*auto fromText = mindmapScene->addText(QString::fromStdString(from->getContent()), font);
-        fromText->setPos(from->getX(), from->getY());
-
-        auto toText = mindmapScene->addText(QString::fromStdString(to->getContent()), font);
-        toText->setPos(to->getX(), to->getY());
-
-        auto connector = mindmapScene->addLine(from->getX() + from->getWidth(), from->getY() + from->getHeight(), to->getX(), to->getY(), outlinePen);*/
-    }
 }
 
 void MainWindow::on_actionAdd_Node_triggered()
@@ -51,6 +32,7 @@ void MainWindow::on_actionAdd_Node_triggered()
     _graph.connectNodes(_root, id2);
 
     emit(nodeAdded(id2, _graph.getNode(id2)));
+    emit(edgeAdded(_graph.getNode(_root), _graph.getNode(id2)));
 }
 
 void MainWindow::on_action_Exit_triggered()

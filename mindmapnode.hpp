@@ -18,7 +18,7 @@ private:
     QFont _font;
 
 public:
-    MindmapNode(size_t nodeId, Node* node, QBrush brush, QPen pen, QFont font);
+    MindmapNode(size_t nodeId, Node* node, const QBrush& brush, const QPen& pen, const QFont& font);
 
     QGraphicsTextItem* getTextContainer();
 public slots:

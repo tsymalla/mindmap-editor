@@ -41,7 +41,7 @@ size_t Graph::addNode(const std::string &content)
         actualContent = "Node " + std::to_string(_lastNode);
     }
 
-    auto node = std::make_unique<Node>(actualContent);
+    auto node = std::make_unique<Node>(_lastNode, actualContent);
     node->setX(std::cos(static_cast<double>(_lastNode)) * 250.0);
     node->setY(std::sin(static_cast<double>(_lastNode)) * 250.0);
     node->setWidth(120.0);

@@ -16,13 +16,16 @@ private:
         double height;
     };
 
+    const size_t _id;
     std::string _content;
     Meta _metaData;
 
 public:
-    Node(const std::string& content);
+    Node(size_t id, const std::string& content);
 
     virtual ~Node();
+
+    size_t getId() const;
 
     void setContent(const std::string& content);
     std::string getContent() const;

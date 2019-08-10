@@ -19,6 +19,7 @@ public:
 
 signals:
     void nodeAdded(size_t nodeId, Node* node);
+    void edgeAdded(Node* from, Node* to);
 
 private slots:
     void on_actionAdd_Node_triggered();

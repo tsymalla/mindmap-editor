@@ -3,13 +3,18 @@
 #include <assert.h>
 #include <QDebug>
 
-Node::Node(const std::string& content):  _content(content)
+Node::Node(size_t id, const std::string& content):  _id(id), _content(content)
 {
 }
 
 Node::~Node()
 {
     qDebug() << "Destructing node";
+}
+
+size_t Node::getId() const
+{
+    return _id;
 }
 
 void Node::setContent(const std::string& content)
