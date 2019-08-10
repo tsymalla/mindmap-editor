@@ -29,12 +29,16 @@ SOURCES += \
         graph.cpp \
         main.cpp \
         mainwindow.cpp \
+        mindmapnode.cpp \
+        mindmapscene.cpp \
         node.cpp
 
 HEADERS += \
         edge.hpp \
         graph.hpp \
         mainwindow.h \
+        mindmapnode.hpp \
+        mindmapscene.hpp \
         node.hpp
 
 FORMS += \
