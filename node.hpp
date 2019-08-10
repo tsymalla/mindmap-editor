@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include <string>
+#include <QJsonValue>
 
 class Node
 {
@@ -39,6 +40,8 @@ public:
     double getY() const;
     double getWidth() const;
     double getHeight() const;
+
+    QJsonValue toJSON() const;
 };
 
 #endif // Node_HPP

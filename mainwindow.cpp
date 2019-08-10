@@ -3,6 +3,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsRectItem>
 #include <QMessageBox>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
                                           QMainWindow(parent),
@@ -48,4 +49,9 @@ void MainWindow::on_action_Exit_triggered()
     {
         QApplication::exit();
     }
+}
+
+void MainWindow::on_action_Save_triggered()
+{
+    qDebug() << _graph.toJSON();
 }

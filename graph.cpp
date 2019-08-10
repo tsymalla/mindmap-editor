@@ -1,6 +1,9 @@
 #include "graph.hpp"
 #include <mutex>
 #include <cmath>
+#include <QJsonObject>
+#include <QJsonDocument>
+#include <QJsonArray>
 
 Graph::Graph(): _lastNode(0)
 {
@@ -75,4 +78,18 @@ const std::vector<std::unique_ptr<Edge>>& Graph::getEdges() const
 const Graph::NodeMap &Graph::getNodes() const
 {
     return _nodes;
+}
+
+QString Graph::toJSON() const
+{
+    QJsonArray arr;
+
+    for (const auto& node: _nodes)
+    {
+        arr.append(node.second->toJSON());
+    }
+
+    QJsonDocument doc(arr);
+
+    return QString(doc.toJson(QJsonDocument::Compact));
 }

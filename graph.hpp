@@ -31,6 +31,8 @@ public:
 
     const std::vector<std::unique_ptr<Edge>>& getEdges() const;
     const NodeMap& getNodes() const;
+
+    QString toJSON() const;
 };
 
 #endif // GRAPH_HPP

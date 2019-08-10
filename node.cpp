@@ -2,6 +2,7 @@
 #include <iostream>
 #include <assert.h>
 #include <QDebug>
+#include <QJsonObject>
 
 Node::Node(size_t id, const std::string& content):  _id(id), _content(content)
 {
@@ -65,4 +66,17 @@ double Node::getWidth() const
 double Node::getHeight() const
 {
     return _metaData.height;
+}
+
+QJsonValue Node::toJSON() const
+{
+    QJsonObject json;
+    json["id"] = QVariant(_id).toInt();
+    json["content"] = QString::fromStdString(_content);
+    json["x"] = QVariant(getX()).toReal();
+    json["y"] = QVariant(getY()).toReal();
+    json["w"] = QVariant(getWidth()).toReal();
+    json["h"] = QVariant(getHeight()).toReal();
+
+    return json;
 }
