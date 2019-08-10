@@ -4,6 +4,7 @@
 #include <QGraphicsRectItem>
 #include <QMessageBox>
 #include <QDebug>
+#include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent) :
                                           QMainWindow(parent),
@@ -53,5 +54,22 @@ void MainWindow::on_action_Exit_triggered()
 
 void MainWindow::on_action_Save_triggered()
 {
-    qDebug() << _graph.toJSON();
+    auto fileName = QFileDialog::getSaveFileName(this, tr("Save file..."), QDir::currentPath(), tr("SimpleMind files (*.mmp)"));
+
+    if (!fileName.isNull())
+    {
+        if (!fileName.endsWith(tr(".mmp")))
+        {
+            fileName += ".mmp";
+        }
+
+        QFile file(fileName);
+
+        if (file.open(QIODevice::WriteOnly))
+        {
+            QTextStream stream(&file);
+            stream << _graph.toJSON();
+            file.close();
+        }
+    }
 }

@@ -71,7 +71,7 @@ double Node::getHeight() const
 QJsonValue Node::toJSON() const
 {
     QJsonObject json;
-    json["id"] = QVariant(_id).toInt();
+    json["id"] = QVariant(static_cast<unsigned int>(_id)).toInt();
     json["content"] = QString::fromStdString(_content);
     json["x"] = QVariant(getX()).toReal();
     json["y"] = QVariant(getY()).toReal();
