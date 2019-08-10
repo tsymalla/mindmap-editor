@@ -27,6 +27,7 @@ public:
     size_t addNode(const std::string& content);
     Node* getNode(const size_t id) const;
     size_t getLatestNode() const;
+    void removeNode(const size_t id);
 
     const std::vector<std::unique_ptr<Edge>>& getEdges() const;
     const NodeMap& getNodes() const;

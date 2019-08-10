@@ -11,8 +11,9 @@ class MindmapNode: public QGraphicsRectItem
 {
 private:
     size_t _nodeId;
+    Node* _node;
     std::string _content;
-    QGraphicsTextItem _textContainer;
+    QGraphicsTextItem *_textContainer;
     QBrush _brush;
     QPen _pen;
     QFont _font;
@@ -23,6 +24,12 @@ public:
     QGraphicsTextItem* getTextContainer();
 public slots:
     void onContentChanged(const std::string& content);
+
+private slots:
+    void onPositionChanged(qreal newX, qreal newY);
+
+protected:
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
 };
 
 #endif // MINDMAPNODE_HPP

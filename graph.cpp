@@ -62,6 +62,11 @@ size_t Graph::getLatestNode() const
     return _lastNode;
 }
 
+void Graph::removeNode(const size_t id)
+{
+    _nodes.erase(id);
+}
+
 const std::vector<std::unique_ptr<Edge>>& Graph::getEdges() const
 {
     return _edges;

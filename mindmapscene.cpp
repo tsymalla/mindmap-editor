@@ -3,6 +3,8 @@
 MindmapScene::MindmapScene(QObject* parent): QGraphicsScene (parent)
 {
     brush.setColor(Qt::green);
+    brush.setStyle(Qt::BrushStyle::SolidPattern);
+
     pen.setColor(Qt::black);
     font.setFamily("Arial");
     font.setWeight(20);
@@ -32,12 +34,12 @@ void MindmapScene::edgeAdded(Node *from, Node *to)
     update();
 }
 
+void MindmapScene::nodePositionChanged(Node *node)
+{
+
+}
+
 std::string MindmapScene::_getEdgeId(size_t from, size_t to) const
 {
     return std::to_string(from) + "_" + std::to_string(to);
-}
-
-void MindmapScene::dropEvent(QGraphicsSceneDragDropEvent *event)
-{
-
 }

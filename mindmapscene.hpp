@@ -18,14 +18,16 @@ private:
     QFont font;
 
     std::string _getEdgeId(size_t from, size_t to) const;
+    Node* _selectedNode;
+
 public:
     MindmapScene(QObject* parent = nullptr);
 
 public slots:
     void nodeAdded(size_t nodeId, Node* node);
     void edgeAdded(Node* from, Node* to);
-protected:
-    void dropEvent(QGraphicsSceneDragDropEvent *event) override;
+    void nodePositionChanged(Node* node);
+    void selectionChanged(Node* node);
 };
 
 #endif // MINDMAPSCENE_HPP
