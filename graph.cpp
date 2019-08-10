@@ -80,6 +80,11 @@ const Graph::NodeMap &Graph::getNodes() const
     return _nodes;
 }
 
+size_t Graph::getNodeCount() const
+{
+    return _nodes.size();
+}
+
 QString Graph::toJSON() const
 {
     QJsonArray arr;

@@ -32,6 +32,8 @@ public:
     const std::vector<std::unique_ptr<Edge>>& getEdges() const;
     const NodeMap& getNodes() const;
 
+    size_t getNodeCount() const;
+
     QString toJSON() const;
 };
 

@@ -35,6 +35,8 @@ void MainWindow::on_actionAdd_Node_triggered()
 
     emit(nodeAdded(id2, _graph.getNode(id2)));
     emit(edgeAdded(_graph.getNode(_root), _graph.getNode(id2)));
+
+    ui->statusBar->showMessage(tr("%n nodes in mind map.", "", _graph.getNodeCount()));
 }
 
 void MainWindow::on_action_Exit_triggered()
