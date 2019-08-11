@@ -55,6 +55,8 @@ MindmapNode *MindmapScene::addNode(const std::string &content)
     auto node = std::make_unique<MindmapNode>(_lastNodeId, actualContent, _brush, _pen, _font);
 
     auto ptr = node.get();
+    //connect(ptr, &MindmapNode::nodeSelected, this, &MindmapScene::selectionChanged);
+
     _nodes.insert(std::make_pair(_lastNodeId, std::move(node)));
 
     addItem(ptr);
@@ -72,6 +74,14 @@ size_t MindmapScene::getNodeCount() const
     return _nodes.size();
 }
 
+void MindmapScene::reset()
+{
+    _nodes.clear();
+    _nodeConnectors.clear();
+    clear();
+    update();
+}
+
 void MindmapScene::nodeAdded(MindmapNode *parent)
 {
     auto newNode = addNode();
@@ -82,7 +92,6 @@ void MindmapScene::nodeAdded(MindmapNode *parent)
 
 void MindmapScene::nodePositionChanged(MindmapNode* node)
 {
-
 }
 
 std::string MindmapScene::_getEdgeId(size_t from, size_t to) const

@@ -22,6 +22,8 @@ private:
 
     void _addEdge(MindmapNode* from, MindmapNode* to);
 
+    MindmapNode* _selectedNode;
+
 public:
     MindmapScene(QObject* parent = nullptr);
     QString toJSON() const;
@@ -31,6 +33,8 @@ public:
     MindmapNode* addNode(const std::string& content);
     MindmapNode* getNodeById(const size_t id) const;
     size_t getNodeCount() const;
+
+    void reset();
 
 public slots:
     void nodeAdded(MindmapNode* parent);

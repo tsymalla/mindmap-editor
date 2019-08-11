@@ -67,3 +67,10 @@ void MainWindow::on_action_Save_triggered()
         }
     }
 }
+
+void MainWindow::on_action_New_Mindmap_triggered()
+{
+    _mindmapScene->reset();
+
+    _root = _mindmapScene->addNode("Mindmap");
+}

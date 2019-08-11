@@ -26,6 +26,8 @@ private slots:
 
     void on_action_Save_triggered();
 
+    void on_action_New_Mindmap_triggered();
+
 private:
     Ui::MainWindow *ui;
     MindmapScene *_mindmapScene;

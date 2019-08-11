@@ -71,15 +71,24 @@
    <property name="text">
     <string>&amp;New Mindmap...</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
   </action>
   <action name="action_Open_file">
    <property name="text">
     <string>&amp;Open file</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
   </action>
   <action name="action_Save">
    <property name="text">
     <string>&amp;Save</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
    </property>
   </action>
   <action name="action_Exit">
@@ -91,15 +100,24 @@
    <property name="text">
     <string>&amp;Undo</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Z</string>
+   </property>
   </action>
   <action name="action_Redo">
    <property name="text">
     <string>&amp;Redo</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+Z</string>
+   </property>
   </action>
   <action name="action_About">
    <property name="text">
     <string>&amp;About</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
    </property>
   </action>
   <action name="actionAdd_Node">
