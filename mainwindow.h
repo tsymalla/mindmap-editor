@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "mindmapscene.hpp"
+#include "about.hpp"
 
 namespace Ui {
 class MainWindow;
@@ -28,11 +29,15 @@ private slots:
 
     void on_action_New_Mindmap_triggered();
 
+    void on_action_About_triggered();
+
 private:
     Ui::MainWindow *ui;
     MindmapScene *_mindmapScene;
 
     MindmapNode* _root;
+
+    About* _about;
 };
 
 #endif // MAINWINDOW_H

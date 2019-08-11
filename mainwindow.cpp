@@ -15,6 +15,8 @@ MainWindow::MainWindow(QWidget *parent) :
     _mindmapScene = new MindmapScene(this);
     ui->mindmapView->setScene(_mindmapScene);
 
+    _about = new About(this);
+
     connect(this, &MainWindow::nodeAdded, _mindmapScene, &MindmapScene::nodeAdded);
 
     _root = _mindmapScene->addNode("Mindmap");
@@ -73,4 +75,9 @@ void MainWindow::on_action_New_Mindmap_triggered()
     _mindmapScene->reset();
 
     _root = _mindmapScene->addNode("Mindmap");
+}
+
+void MainWindow::on_action_About_triggered()
+{
+    _about->show();
 }

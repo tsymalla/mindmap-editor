@@ -25,6 +25,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++14
 
 SOURCES += \
+        about.cpp \
         main.cpp \
         mainwindow.cpp \
         mindmapedge.cpp \
@@ -32,12 +33,14 @@ SOURCES += \
         mindmapscene.cpp
 
 HEADERS += \
+        about.hpp \
         mainwindow.h \
         mindmapedge.hpp \
         mindmapnode.hpp \
         mindmapscene.hpp
 
 FORMS += \
+        about.ui \
         mainwindow.ui
 
 # Default rules for deployment.
