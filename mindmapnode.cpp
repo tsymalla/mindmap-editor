@@ -10,8 +10,11 @@ MindmapNode::MindmapNode(size_t nodeId, const std::string& content, const QBrush
     _pen(pen),
     _font(font)
 {
-    setRect(qCos(qreal(_nodeId)) * 250.0,
-            qSin(qreal(_nodeId)) * 250.0,
+    auto sin = qRadiansToDegrees(qSin(qreal(_nodeId)));
+    auto cos = qRadiansToDegrees(qCos(qreal(_nodeId)));
+
+    setRect(cos * 4.0,
+            sin * 4.0,
             120.0,
             40.0);
 
