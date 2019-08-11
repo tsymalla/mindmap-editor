@@ -6,8 +6,9 @@
 #include <QPen>
 #include <QFont>
 
-class MindmapNode: public QGraphicsRectItem
+class MindmapNode: public QObject, public QGraphicsRectItem
 {
+    Q_OBJECT
 private:
     size_t _nodeId;
     std::string _content;
@@ -32,11 +33,14 @@ public slots:
 private slots:
     void onPositionChanged(qreal newX, qreal newY);
 
-/*signals:
-    void nodeSelected(MindmapNode* node);*/
+signals:
+    void nodeSelected(MindmapNode* node);
 
 protected:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
 };
+
+Q_DECLARE_METATYPE(MindmapNode*)
 
 #endif // MINDMAPNODE_HPP

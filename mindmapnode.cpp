@@ -63,3 +63,8 @@ void MindmapNode::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 
     emit onPositionChanged(pos.x(), pos.y());
 }
+
+void MindmapNode::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+    emit nodeSelected(this);
+}

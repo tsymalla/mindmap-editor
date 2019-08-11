@@ -3,6 +3,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <mutex>
+#include <QDebug>
 
 MindmapScene::MindmapScene(QObject* parent): QGraphicsScene (parent), _lastNodeId(0)
 {
@@ -55,7 +56,7 @@ MindmapNode *MindmapScene::addNode(const std::string &content)
     auto node = std::make_unique<MindmapNode>(_lastNodeId, actualContent, _brush, _pen, _font);
 
     auto ptr = node.get();
-    //connect(ptr, &MindmapNode::nodeSelected, this, &MindmapScene::selectionChanged);
+    connect(ptr, &MindmapNode::nodeSelected, this, &MindmapScene::selectionChanged);
 
     _nodes.insert(std::make_pair(_lastNodeId, std::move(node)));
 
@@ -92,6 +93,12 @@ void MindmapScene::nodeAdded(MindmapNode *parent)
 
 void MindmapScene::nodePositionChanged(MindmapNode* node)
 {
+}
+
+void MindmapScene::selectionChanged(MindmapNode* node)
+{
+    _selectedNode = node;
+    _selectedNode->setBrush(QBrush(Qt::blue));
 }
 
 std::string MindmapScene::_getEdgeId(size_t from, size_t to) const
