@@ -12,14 +12,12 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    mindmapScene = new MindmapScene(this);
-    ui->mindmapView->setScene(mindmapScene);
+    _mindmapScene = new MindmapScene(this);
+    ui->mindmapView->setScene(_mindmapScene);
 
-    connect(this, &MainWindow::nodeAdded, mindmapScene, &MindmapScene::nodeAdded);
-    connect(this, &MainWindow::edgeAdded, mindmapScene, &MindmapScene::edgeAdded);
+    connect(this, &MainWindow::nodeAdded, _mindmapScene, &MindmapScene::nodeAdded);
 
-    _root = _graph.addNode("Mindmap");
-    emit(nodeAdded(_root, _graph.getNode(_root)));
+    _root = _mindmapScene->addNode("Mindmap");
 }
 
 MainWindow::~MainWindow()
@@ -29,14 +27,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionAdd_Node_triggered()
 {
-    auto id2 = _graph.addNode();
-
-    _graph.connectNodes(_root, id2);
-
-    emit(nodeAdded(id2, _graph.getNode(id2)));
-    emit(edgeAdded(_graph.getNode(_root), _graph.getNode(id2)));
-
-    ui->statusBar->showMessage(tr("%n nodes in mind map.", "", _graph.getNodeCount()));
+    emit nodeAdded(_root);
+    ui->statusBar->showMessage(tr("%n nodes in mind map.", "", _mindmapScene->getNodeCount()));
 }
 
 void MainWindow::on_action_Exit_triggered()
@@ -70,7 +62,7 @@ void MainWindow::on_action_Save_triggered()
         if (file.open(QIODevice::WriteOnly))
         {
             QTextStream stream(&file);
-            stream << _graph.toJSON();
+            stream << _mindmapScene->toJSON();
             file.close();
         }
     }

@@ -1,28 +1,50 @@
 #include "mindmapnode.hpp"
 #include <QGraphicsSceneDragDropEvent>
 #include <QDebug>
+#include <QJsonObject>
+#include <QtMath>
 
-MindmapNode::MindmapNode(size_t nodeId, Node *node, const QBrush& brush, const QPen& pen, const QFont& font): _nodeId(nodeId),
-                                                                                                              _node(node),
-                                                                                                              _brush(brush),
-                                                                                                              _pen(pen),
-                                                                                                              _font(font)
+MindmapNode::MindmapNode(size_t nodeId, const std::string& content, const QBrush& brush, const QPen& pen, const QFont& font):
+    _nodeId(nodeId),
+    _brush(brush),
+    _pen(pen),
+    _font(font)
 {
-    _textContainer = new QGraphicsTextItem(this);
-    _textContainer->setPos(node->getX(), node->getY());
+    setRect(qCos(qreal(_nodeId)) * 250.0,
+            qSin(qreal(_nodeId)) * 250.0,
+            120.0,
+            40.0);
 
-    onContentChanged(node->getContent());
-
-    setRect(node->getX(), node->getY(), node->getWidth(), node->getHeight());
     setFlag(QGraphicsItem::ItemIsMovable);
-    setBrush(brush);
+    setBrush(_brush);
 
-    setPen(pen);
+    setPen(_pen);
+
+    _textContainer = new QGraphicsTextItem(this);
+    _textContainer->setPos(boundingRect().x(), boundingRect().y());
+
+    onContentChanged(content);
 }
 
-QGraphicsTextItem* MindmapNode::getTextContainer()
+size_t MindmapNode::getNodeId() const
 {
-    return _textContainer;
+    return _nodeId;
+}
+
+QJsonValue MindmapNode::toJSON() const
+{
+    QJsonObject json;
+    json["id"] = QVariant(static_cast<unsigned int>(_nodeId)).toInt();
+    json["content"] = QString::fromStdString(_content);
+
+    const auto& rect = boundingRect();
+
+    json["x"] = rect.x();
+    json["y"] = rect.y();
+    json["w"] = rect.width();
+    json["h"] = rect.height();
+
+    return json;
 }
 
 void MindmapNode::onContentChanged(const std::string &content)
@@ -33,8 +55,6 @@ void MindmapNode::onContentChanged(const std::string &content)
 
 void MindmapNode::onPositionChanged(qreal newX, qreal newY)
 {
-    _node->setX(newX);
-    _node->setY(newY);
 }
 
 void MindmapNode::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)

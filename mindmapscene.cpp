@@ -1,40 +1,80 @@
 #include "mindmapscene.hpp"
 
-MindmapScene::MindmapScene(QObject* parent): QGraphicsScene (parent)
-{
-    brush.setColor(Qt::green);
-    brush.setStyle(Qt::BrushStyle::SolidPattern);
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <mutex>
 
-    pen.setColor(Qt::black);
-    font.setFamily("Arial");
-    font.setWeight(20);
+MindmapScene::MindmapScene(QObject* parent): QGraphicsScene (parent), _lastNodeId(0)
+{
+    _brush.setColor(Qt::green);
+    _brush.setStyle(Qt::BrushStyle::SolidPattern);
+
+    _pen.setColor(Qt::black);
+    _font.setFamily("Arial");
+    _font.setWeight(20);
 }
 
-void MindmapScene::nodeAdded(size_t nodeId, Node *node)
+QString MindmapScene::toJSON() const
 {
-    auto newNode = std::make_unique<MindmapNode>(nodeId, node, brush, pen, font);
-    auto ptr = newNode.get();
-    _nodeRects.insert(std::make_pair(nodeId, std::move(newNode)));
+    QJsonArray arr;
+
+    for (const auto& node: _nodes)
+    {
+        arr.append(node.second->toJSON());
+    }
+
+    QJsonDocument doc(arr);
+
+    return QString(doc.toJson(QJsonDocument::Compact));
+}
+
+MindmapNode *MindmapScene::addNode()
+{
+    return addNode("");
+}
+
+MindmapNode *MindmapScene::addNode(const std::string &content)
+{
+    std::mutex m;
+    std::lock_guard<std::mutex> guard(m);
+
+    ++_lastNodeId;
+
+    auto actualContent = content;
+    if (content.empty())
+    {
+        actualContent = "Node " + std::to_string(_lastNodeId);
+    }
+
+    auto node = std::make_unique<MindmapNode>(_lastNodeId, actualContent, _brush, _pen, _font);
+
+    auto ptr = node.get();
+    _nodes.insert(std::make_pair(_lastNodeId, std::move(node)));
 
     addItem(ptr);
-    addItem(ptr->getTextContainer());
+
+    return ptr;
+}
+
+MindmapNode *MindmapScene::getNodeById(const size_t id) const
+{
+    return (_nodes.at(id)) ? _nodes.at(id).get() : nullptr;
+}
+
+size_t MindmapScene::getNodeCount() const
+{
+    return _nodes.size();
+}
+
+void MindmapScene::nodeAdded(MindmapNode *parent)
+{
+    auto newNode = addNode();
+    _addEdge(parent, newNode);
 
     update();
 }
 
-void MindmapScene::edgeAdded(Node *from, Node *to)
-{
-    auto newEdge = std::make_unique<MindmapEdge>(from, to, pen);
-    auto ptr = newEdge.get();
-
-    _nodeConnectors.insert(std::make_pair(_getEdgeId(from->getId(), to->getId()), std::move(newEdge)));
-
-    addItem(ptr);
-
-    update();
-}
-
-void MindmapScene::nodePositionChanged(Node *node)
+void MindmapScene::nodePositionChanged(MindmapNode* node)
 {
 
 }
@@ -42,4 +82,14 @@ void MindmapScene::nodePositionChanged(Node *node)
 std::string MindmapScene::_getEdgeId(size_t from, size_t to) const
 {
     return std::to_string(from) + "_" + std::to_string(to);
+}
+
+void MindmapScene::_addEdge(MindmapNode* from, MindmapNode* to)
+{
+    auto newEdge = std::make_unique<MindmapEdge>(from, to, _pen);
+    auto ptr = newEdge.get();
+
+    _nodeConnectors.insert(std::make_pair(_getEdgeId(from->getNodeId(), to->getNodeId()), std::move(newEdge)));
+
+    addItem(ptr);
 }

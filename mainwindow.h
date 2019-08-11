@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "graph.hpp"
 #include "mindmapscene.hpp"
 
 namespace Ui {
@@ -18,8 +17,8 @@ public:
     ~MainWindow();
 
 signals:
-    void nodeAdded(size_t nodeId, Node* node);
-    void edgeAdded(Node* from, Node* to);
+    void nodeAdded(MindmapNode* parent);
+    void edgeAdded(MindmapNode* from, MindmapNode* to);
 
 private slots:
     void on_actionAdd_Node_triggered();
@@ -29,12 +28,9 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    MindmapScene *mindmapScene;
+    MindmapScene *_mindmapScene;
 
-    Graph _graph;
-    size_t _root;
-
-    void _drawMindmap();
+    MindmapNode* _root;
 };
 
 #endif // MAINWINDOW_H

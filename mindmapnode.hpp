@@ -2,7 +2,6 @@
 #define MINDMAPNODE_HPP
 
 #include <QGraphicsRectItem>
-#include "node.hpp"
 #include <QBrush>
 #include <QPen>
 #include <QFont>
@@ -11,7 +10,6 @@ class MindmapNode: public QGraphicsRectItem
 {
 private:
     size_t _nodeId;
-    Node* _node;
     std::string _content;
     QGraphicsTextItem *_textContainer;
     QBrush _brush;
@@ -19,9 +17,15 @@ private:
     QFont _font;
 
 public:
-    MindmapNode(size_t nodeId, Node* node, const QBrush& brush, const QPen& pen, const QFont& font);
+    MindmapNode(size_t nodeId,
+                const std::string& content,
+                const QBrush& brush,
+                const QPen& pen,
+                const QFont& font);
 
-    QGraphicsTextItem* getTextContainer();
+    size_t getNodeId() const;
+
+    QJsonValue toJSON() const;
 public slots:
     void onContentChanged(const std::string& content);
 

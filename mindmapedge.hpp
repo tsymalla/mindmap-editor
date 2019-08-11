@@ -3,19 +3,19 @@
 
 #include <QGraphicsLineItem>
 #include <QPen>
-#include "node.hpp"
+#include "mindmapnode.hpp"
 
 class MindmapEdge: public QGraphicsLineItem
 {
 private:
-    Node* _from;
-    Node* _to;
+    MindmapNode* _from;
+    MindmapNode* _to;
     QPen _pen;
 public:
-    MindmapEdge(Node* from, Node* to, const QPen& pen);
+    MindmapEdge(MindmapNode* from, MindmapNode* to, const QPen& pen);
 
 public slots:
-    void nodePositionUpdated(Node* node, bool isStart);
+    void nodePositionUpdated(MindmapNode* node, bool isStart);
 };
 
 #endif // MINDMAPEDGE_HPP

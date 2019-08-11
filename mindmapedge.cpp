@@ -1,19 +1,28 @@
 #include "mindmapedge.hpp"
 
-MindmapEdge::MindmapEdge(Node *from, Node *to, const QPen& pen): _from(from), _to(to), _pen(pen)
+MindmapEdge::MindmapEdge(MindmapNode *from, MindmapNode *to, const QPen& pen): _from(from), _to(to), _pen(pen)
 {
     this->setPen(_pen);
-    this->setLine(from->getX() + from->getWidth(), from->getY() + from->getHeight(), to->getX(), to->getY());
+    const auto& rect = from->boundingRect();
+    const auto& rect2 = to->boundingRect();
+
+    this->setLine(rect.x() + rect.width(), rect.y() + rect.height(), rect2.x(), rect2.y());
 }
 
-void MindmapEdge::nodePositionUpdated(Node *node, bool isStart)
+void MindmapEdge::nodePositionUpdated(MindmapNode *node, bool isStart)
 {
     if (isStart)
     {
-        this->setLine(node->getX() + node->getWidth(), node->getY() + node->getHeight(), _to->getX(), _to->getY());
+        const auto& rect = node->boundingRect();
+        const auto& rect2 = _to->boundingRect();
+
+        this->setLine(rect.x() + rect.width(), rect.y() + rect.height(), rect2.x(), rect2.y());
     }
     else
     {
-        this->setLine(_from->getX() + _from->getWidth(), _from->getY() + _from->getHeight(), node->getX(), node->getY());
+        const auto& rect = _from->boundingRect();
+        const auto& rect2 = _to->boundingRect();
+
+        this->setLine(rect.x() + rect.width(), rect.y() + rect.height(), rect2.x(), rect2.y());
     }
 }

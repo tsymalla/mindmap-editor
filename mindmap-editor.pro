@@ -25,23 +25,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++14
 
 SOURCES += \
-        edge.cpp \
-        graph.cpp \
         main.cpp \
         mainwindow.cpp \
         mindmapedge.cpp \
         mindmapnode.cpp \
-        mindmapscene.cpp \
-        node.cpp
+        mindmapscene.cpp
 
 HEADERS += \
-        edge.hpp \
-        graph.hpp \
         mainwindow.h \
         mindmapedge.hpp \
         mindmapnode.hpp \
-        mindmapscene.hpp \
-        node.hpp
+        mindmapscene.hpp
 
 FORMS += \
         mainwindow.ui
