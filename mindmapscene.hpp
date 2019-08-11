@@ -25,6 +25,7 @@ private:
 public:
     MindmapScene(QObject* parent = nullptr);
     QString toJSON() const;
+    void fromJSON(const QString& json);
 
     MindmapNode* addNode();
     MindmapNode* addNode(const std::string& content);

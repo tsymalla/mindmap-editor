@@ -11,6 +11,10 @@ private:
     MindmapNode* _from;
     MindmapNode* _to;
     QPen _pen;
+    QPointF _point1;
+    QPointF _point2;
+
+    void _calculateConnectionPoints();
 public:
     MindmapEdge(MindmapNode* from, MindmapNode* to, const QPen& pen);
 

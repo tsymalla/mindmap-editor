@@ -28,6 +28,12 @@ QString MindmapScene::toJSON() const
     return QString(doc.toJson(QJsonDocument::Compact));
 }
 
+void MindmapScene::fromJSON(const QString &json)
+{
+    clear();
+
+}
+
 MindmapNode *MindmapScene::addNode()
 {
     return addNode("");
