@@ -32,7 +32,6 @@ QString MindmapScene::toJSON() const
 void MindmapScene::fromJSON(const QString &json)
 {
     clear();
-
 }
 
 MindmapNode *MindmapScene::addNode()
