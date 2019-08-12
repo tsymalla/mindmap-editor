@@ -31,6 +31,8 @@ private slots:
 
     void on_action_About_triggered();
 
+    void on_action_Open_file_triggered();
+
 private:
     Ui::MainWindow *ui;
     MindmapScene *_mindmapScene;

@@ -31,7 +31,15 @@ QString MindmapScene::toJSON() const
 
 void MindmapScene::fromJSON(const QString &json)
 {
-    clear();
+    //clear();
+
+    QJsonDocument obj = QJsonDocument::fromJson(json.toUtf8());
+
+    for (const auto node: obj.array())
+    {
+    }
+
+    qDebug() << obj;
 }
 
 MindmapNode *MindmapScene::addNode()

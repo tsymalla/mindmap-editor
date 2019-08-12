@@ -81,3 +81,21 @@ void MainWindow::on_action_About_triggered()
 {
     _about->show();
 }
+
+void MainWindow::on_action_Open_file_triggered()
+{
+    auto fileName = QFileDialog::getOpenFileName(this, tr("Open file..."), QDir::currentPath(), tr("SimpleMind files (*.mmp)"));
+
+    if (!fileName.isNull())
+    {
+        QFile file(fileName);
+
+        if (file.open(QIODevice::ReadOnly))
+        {
+            QTextStream stream(&file);
+            QString data = stream.readAll();
+            _mindmapScene->fromJSON(data);
+            file.close();
+        }
+    }
+}
