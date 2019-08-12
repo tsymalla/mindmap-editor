@@ -4,6 +4,7 @@
 #include <QJsonDocument>
 #include <mutex>
 #include <QDebug>
+#include <QKeyEvent>
 
 MindmapScene::MindmapScene(QObject* parent): QGraphicsScene (parent), _lastNodeId(0)
 {
@@ -120,6 +121,15 @@ void MindmapScene::selectionChanged(MindmapNode* node)
     _selectedNode->setBrush(QBrush(Qt::blue));
 }
 
+void MindmapScene::keyReleaseEvent(QKeyEvent *event)
+{
+    if (_selectedNode != nullptr && event->key() == Qt::Key::Key_Delete)
+    {
+        _removeSelectedNodes();
+        update();
+    }
+}
+
 std::string MindmapScene::_getEdgeId(size_t from, size_t to) const
 {
     return std::to_string(from) + "_" + std::to_string(to);
@@ -133,4 +143,25 @@ void MindmapScene::_addEdge(MindmapNode* from, MindmapNode* to)
     _nodeConnectors.insert(std::make_pair(_getEdgeId(from->getNodeId(), to->getNodeId()), std::move(newEdge)));
 
     addItem(ptr);
+}
+
+void MindmapScene::_removeSelectedNodes()
+{
+    std::vector<std::string> removables;
+    for (const auto& connector: _nodeConnectors)
+    {
+        auto edge = connector.second.get();
+
+        if (edge->isFrom(_selectedNode) || edge->isTo(_selectedNode))
+        {
+            removables.push_back(connector.first);
+        }
+    }
+
+    for (const auto& removable: removables)
+    {
+        _nodeConnectors.erase(removable);
+    }
+
+    _nodes.erase(_selectedNode->getNodeId());
 }

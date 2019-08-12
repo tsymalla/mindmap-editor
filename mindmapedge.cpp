@@ -5,6 +5,11 @@
 
 void MindmapEdge::_calculateConnectionPoints()
 {
+    if (_from == nullptr || _to == nullptr)
+    {
+        return;
+    }
+
     const auto& rect = _from->sceneBoundingRect();
     const auto& rect2 = _to->sceneBoundingRect();
 

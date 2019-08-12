@@ -24,6 +24,8 @@ private:
 
     MindmapNode* _selectedNode;
 
+    void _removeSelectedNodes();
+
 public:
     MindmapScene(QObject* parent = nullptr);
     QString toJSON() const;
@@ -40,6 +42,9 @@ public slots:
     void nodeAdded(MindmapNode* parent);
     void nodePositionChanged(MindmapNode* node);
     void selectionChanged(MindmapNode* node);
+
+protected:
+    void keyReleaseEvent(QKeyEvent *event) override;
 };
 
 #endif // MINDMAPSCENE_HPP
