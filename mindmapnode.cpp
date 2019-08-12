@@ -24,7 +24,7 @@ MindmapNode::MindmapNode(size_t nodeId, const std::string& content, const QBrush
     setPen(_pen);
 
     _textContainer = new QGraphicsTextItem(this);
-    _textContainer->setPos(boundingRect().x(), boundingRect().y());
+    _textContainer->setPos(sceneBoundingRect().x(), sceneBoundingRect().y());
 
     onContentChanged(content);
 }
@@ -40,7 +40,7 @@ QJsonValue MindmapNode::toJSON() const
     json["id"] = QVariant(static_cast<unsigned int>(_nodeId)).toInt();
     json["content"] = QString::fromStdString(_content);
 
-    const auto& rect = boundingRect();
+    const auto& rect = sceneBoundingRect();
 
     json["x"] = rect.x();
     json["y"] = rect.y();
@@ -56,15 +56,13 @@ void MindmapNode::onContentChanged(const std::string &content)
     _textContainer->setPlainText(QString::fromStdString(_content));
 }
 
-void MindmapNode::onPositionChanged(qreal newX, qreal newY)
-{
-}
-
 void MindmapNode::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-    auto pos = event->pos();
+    // emit signal to the mindmap scene which will then re-calculate the corresponding edges
+    emit positionChanged(this);
 
-    emit onPositionChanged(pos.x(), pos.y());
+    // propagate event to the base object to prevent jumping of the rect
+    QGraphicsRectItem::mouseReleaseEvent(event);
 }
 
 void MindmapNode::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)

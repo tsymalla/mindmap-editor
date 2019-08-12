@@ -30,11 +30,9 @@ public:
 public slots:
     void onContentChanged(const std::string& content);
 
-private slots:
-    void onPositionChanged(qreal newX, qreal newY);
-
 signals:
     void nodeSelected(MindmapNode* node);
+    void positionChanged(MindmapNode* node);
 
 protected:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;

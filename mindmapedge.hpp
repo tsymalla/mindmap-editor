@@ -18,8 +18,10 @@ private:
 public:
     MindmapEdge(MindmapNode* from, MindmapNode* to, const QPen& pen);
 
-public slots:
-    void nodePositionUpdated(MindmapNode* node, bool isStart);
+    bool isFrom(MindmapNode* from) const;
+    bool isTo(MindmapNode* to) const;
+
+    void redraw();
 };
 
 #endif // MINDMAPEDGE_HPP

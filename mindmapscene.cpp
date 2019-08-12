@@ -56,6 +56,7 @@ MindmapNode *MindmapScene::addNode(const std::string &content)
 
     auto ptr = node.get();
     connect(ptr, &MindmapNode::nodeSelected, this, &MindmapScene::selectionChanged);
+    connect(ptr, &MindmapNode::positionChanged, this, &MindmapScene::nodePositionChanged);
 
     _nodes.insert(std::make_pair(_lastNodeId, std::move(node)));
 
@@ -92,6 +93,17 @@ void MindmapScene::nodeAdded(MindmapNode *parent)
 
 void MindmapScene::nodePositionChanged(MindmapNode* node)
 {
+    for (const auto& it: _nodeConnectors)
+    {
+        MindmapEdge* edge = it.second.get();
+        if (edge->isFrom(node) || edge->isTo(node))
+        {
+            // update node connection points
+            edge->redraw();
+        }
+    }
+
+    update();
 }
 
 void MindmapScene::selectionChanged(MindmapNode* node)
