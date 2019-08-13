@@ -9,6 +9,7 @@
 
 class MindmapScene : public QGraphicsScene
 {
+    Q_OBJECT
 private:
     std::unordered_map<size_t, std::unique_ptr<MindmapNode>> _nodes;
     std::unordered_map<std::string, std::unique_ptr<MindmapEdge>> _nodeConnectors;
@@ -34,14 +35,19 @@ public:
     MindmapNode* addNode();
     MindmapNode* addNode(const std::string& content);
     MindmapNode* getNodeById(const size_t id) const;
-    size_t getNodeCount() const;
+    int getNodeCount() const;
 
     void reset();
 
 public slots:
-    void nodeAdded(MindmapNode* parent);
+    void nodeAdded();
     void nodePositionChanged(MindmapNode* node);
     void selectionChanged(MindmapNode* node);
+    void nodeDoubleClick(MindmapNode* node);
+    void nodeContentChanged(MindmapNode* node, const std::string& content);
+
+signals:
+    void passNodeDoubleClick(MindmapNode* node);
 
 protected:
     void keyReleaseEvent(QKeyEvent *event) override;

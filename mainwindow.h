@@ -18,8 +18,11 @@ public:
     ~MainWindow();
 
 signals:
-    void nodeAdded(MindmapNode* parent);
-    void edgeAdded(MindmapNode* from, MindmapNode* to);
+    void nodeAdded();
+    void nodeContentChanged(MindmapNode* node, const std::string& content);
+
+public slots:
+    void passNodeDoubleClick(MindmapNode* node);
 
 private slots:
     void on_actionAdd_Node_triggered();
@@ -36,8 +39,6 @@ private slots:
 private:
     Ui::MainWindow *ui;
     MindmapScene *_mindmapScene;
-
-    MindmapNode* _root;
 
     About* _about;
 };

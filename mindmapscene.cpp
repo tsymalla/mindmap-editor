@@ -6,7 +6,7 @@
 #include <QDebug>
 #include <QKeyEvent>
 
-MindmapScene::MindmapScene(QObject* parent): QGraphicsScene (parent), _lastNodeId(0)
+MindmapScene::MindmapScene(QObject* parent): QGraphicsScene (parent), _lastNodeId(0), _selectedNode(nullptr)
 {
     _brush.setColor(Qt::green);
     _brush.setStyle(Qt::BrushStyle::SolidPattern);
@@ -66,6 +66,7 @@ MindmapNode *MindmapScene::addNode(const std::string &content)
     auto ptr = node.get();
     connect(ptr, &MindmapNode::nodeSelected, this, &MindmapScene::selectionChanged);
     connect(ptr, &MindmapNode::positionChanged, this, &MindmapScene::nodePositionChanged);
+    connect(ptr, &MindmapNode::nodeDoubleClick, this, &MindmapScene::nodeDoubleClick);
 
     _nodes.insert(std::make_pair(_lastNodeId, std::move(node)));
 
@@ -79,7 +80,7 @@ MindmapNode *MindmapScene::getNodeById(const size_t id) const
     return (_nodes.at(id)) ? _nodes.at(id).get() : nullptr;
 }
 
-size_t MindmapScene::getNodeCount() const
+int MindmapScene::getNodeCount() const
 {
     return _nodes.size();
 }
@@ -92,11 +93,16 @@ void MindmapScene::reset()
     update();
 }
 
-void MindmapScene::nodeAdded(MindmapNode *parent)
+void MindmapScene::nodeAdded()
 {
     auto newNode = addNode();
-    _addEdge(parent, newNode);
 
+    if (_selectedNode != nullptr)
+    {
+        _addEdge(_selectedNode, newNode);
+    }
+
+    selectionChanged(newNode);
     update();
 }
 
@@ -117,8 +123,25 @@ void MindmapScene::nodePositionChanged(MindmapNode* node)
 
 void MindmapScene::selectionChanged(MindmapNode* node)
 {
+    if (_selectedNode != nullptr)
+    {
+        _selectedNode->setBrush(_brush);
+    }
+
     _selectedNode = node;
     _selectedNode->setBrush(QBrush(Qt::blue));
+}
+
+void MindmapScene::nodeDoubleClick(MindmapNode *node)
+{
+    // pass-through signal to main window
+    emit passNodeDoubleClick(node);
+}
+
+void MindmapScene::nodeContentChanged(MindmapNode* node, const std::string &content)
+{
+    node->setContent(content);
+    update();
 }
 
 void MindmapScene::keyReleaseEvent(QKeyEvent *event)

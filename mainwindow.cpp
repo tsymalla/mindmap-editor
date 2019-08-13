@@ -5,6 +5,7 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <QFileDialog>
+#include <QInputDialog>
 
 MainWindow::MainWindow(QWidget *parent) :
                                           QMainWindow(parent),
@@ -18,8 +19,9 @@ MainWindow::MainWindow(QWidget *parent) :
     _about = new About(this);
 
     connect(this, &MainWindow::nodeAdded, _mindmapScene, &MindmapScene::nodeAdded);
-
-    _root = _mindmapScene->addNode("Mindmap");
+    connect(_mindmapScene, &MindmapScene::passNodeDoubleClick, this, &MainWindow::passNodeDoubleClick);
+    connect(this, &MainWindow::nodeContentChanged, _mindmapScene, &MindmapScene::nodeContentChanged);
+    emit nodeAdded();
 }
 
 MainWindow::~MainWindow()
@@ -27,9 +29,15 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::passNodeDoubleClick(MindmapNode *node)
+{
+    auto _newContent = QInputDialog::getText(this, "Content", "Enter new content");
+    emit nodeContentChanged(node, _newContent.toStdString());
+}
+
 void MainWindow::on_actionAdd_Node_triggered()
 {
-    emit nodeAdded(_root);
+    emit nodeAdded();
     ui->statusBar->showMessage(tr("%n nodes in mind map.", "", _mindmapScene->getNodeCount()));
 }
 
@@ -73,8 +81,6 @@ void MainWindow::on_action_Save_triggered()
 void MainWindow::on_action_New_Mindmap_triggered()
 {
     _mindmapScene->reset();
-
-    _root = _mindmapScene->addNode("Mindmap");
 }
 
 void MainWindow::on_action_About_triggered()

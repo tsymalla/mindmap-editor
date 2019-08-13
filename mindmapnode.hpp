@@ -27,15 +27,18 @@ public:
     size_t getNodeId() const;
 
     QJsonValue toJSON() const;
+    void setContent(const std::string& content);
 public slots:
     void onContentChanged(const std::string& content);
 
 signals:
     void nodeSelected(MindmapNode* node);
     void positionChanged(MindmapNode* node);
+    void nodeDoubleClick(MindmapNode* node);
 
 protected:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
 };
 

@@ -50,6 +50,11 @@ QJsonValue MindmapNode::toJSON() const
     return json;
 }
 
+void MindmapNode::setContent(const std::string &content)
+{
+    onContentChanged(content);
+}
+
 void MindmapNode::onContentChanged(const std::string &content)
 {
     _content = content;
@@ -65,7 +70,12 @@ void MindmapNode::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     QGraphicsRectItem::mouseReleaseEvent(event);
 }
 
-void MindmapNode::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+void MindmapNode::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     emit nodeSelected(this);
+}
+
+void MindmapNode::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+    emit nodeDoubleClick(this);
 }
