@@ -31,7 +31,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::passNodeDoubleClick(MindmapNode *node)
 {
-    auto _newContent = QInputDialog::getText(this, "Content", "Enter new content");
+    auto _newContent = QInputDialog::getText(this, "Content", "Set content of the node", QLineEdit::Normal, QString::fromStdString(node->getContent()));
     emit nodeContentChanged(node, _newContent.toStdString());
 }
 

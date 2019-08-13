@@ -28,6 +28,7 @@ public:
 
     QJsonValue toJSON() const;
     void setContent(const std::string& content);
+    std::string getContent() const;
 public slots:
     void onContentChanged(const std::string& content);
 

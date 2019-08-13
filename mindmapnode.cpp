@@ -55,6 +55,11 @@ void MindmapNode::setContent(const std::string &content)
     onContentChanged(content);
 }
 
+std::string MindmapNode::getContent() const
+{
+    return _content;
+}
+
 void MindmapNode::onContentChanged(const std::string &content)
 {
     _content = content;
