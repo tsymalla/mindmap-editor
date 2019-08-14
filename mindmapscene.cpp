@@ -160,6 +160,11 @@ std::string MindmapScene::_getEdgeId(size_t from, size_t to) const
 
 void MindmapScene::_addEdge(MindmapNode* from, MindmapNode* to)
 {
+    if (from == nullptr || to == nullptr)
+    {
+        return;
+    }
+
     auto newEdge = std::make_unique<MindmapEdge>(from, to, _pen);
     auto ptr = newEdge.get();
 
@@ -187,4 +192,5 @@ void MindmapScene::_removeSelectedNodes()
     }
 
     _nodes.erase(_selectedNode->getNodeId());
+    _selectedNode = nullptr;
 }
