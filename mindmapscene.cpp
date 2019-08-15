@@ -72,6 +72,14 @@ MindmapNode *MindmapScene::addNode(const std::string &content)
 
     addItem(ptr);
 
+    if (_selectedNode != nullptr)
+    {
+        _addEdge(_selectedNode, ptr);
+    }
+
+    selectionChanged(ptr);
+    update();
+
     return ptr;
 }
 
@@ -90,19 +98,6 @@ void MindmapScene::reset()
     _nodes.clear();
     _nodeConnectors.clear();
     clear();
-    update();
-}
-
-void MindmapScene::nodeAdded()
-{
-    auto newNode = addNode();
-
-    if (_selectedNode != nullptr)
-    {
-        _addEdge(_selectedNode, newNode);
-    }
-
-    selectionChanged(newNode);
     update();
 }
 
@@ -146,10 +141,9 @@ void MindmapScene::nodeContentChanged(MindmapNode* node, const std::string &cont
 
 void MindmapScene::keyReleaseEvent(QKeyEvent *event)
 {
-    if (_selectedNode != nullptr && event->key() == Qt::Key::Key_Delete)
+    if (event->key() == Qt::Key::Key_Delete)
     {
-        _removeSelectedNodes();
-        update();
+        removeSelectedNodes();
     }
 }
 
@@ -173,8 +167,13 @@ void MindmapScene::_addEdge(MindmapNode* from, MindmapNode* to)
     addItem(ptr);
 }
 
-void MindmapScene::_removeSelectedNodes()
+void MindmapScene::removeSelectedNodes()
 {
+    if (_selectedNode == nullptr)
+    {
+        return;
+    }
+
     std::vector<std::string> removables;
     for (const auto& connector: _nodeConnectors)
     {
@@ -193,4 +192,6 @@ void MindmapScene::_removeSelectedNodes()
 
     _nodes.erase(_selectedNode->getNodeId());
     _selectedNode = nullptr;
+
+    update();
 }

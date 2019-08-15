@@ -18,10 +18,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     _about = new About(this);
 
-    connect(this, &MainWindow::nodeAdded, _mindmapScene, &MindmapScene::nodeAdded);
     connect(_mindmapScene, &MindmapScene::passNodeDoubleClick, this, &MainWindow::passNodeDoubleClick);
     connect(this, &MainWindow::nodeContentChanged, _mindmapScene, &MindmapScene::nodeContentChanged);
-    emit nodeAdded();
+    _mindmapScene->addNode("Mindmap");
 }
 
 MainWindow::~MainWindow()
@@ -37,7 +36,7 @@ void MainWindow::passNodeDoubleClick(MindmapNode *node)
 
 void MainWindow::on_actionAdd_Node_triggered()
 {
-    emit nodeAdded();
+    _mindmapScene->addNode();
     ui->statusBar->showMessage(tr("%n nodes in mind map.", "", _mindmapScene->getNodeCount()));
 }
 
@@ -104,4 +103,9 @@ void MainWindow::on_action_Open_file_triggered()
             file.close();
         }
     }
+}
+
+void MainWindow::on_actionRemove_node_triggered()
+{
+    _mindmapScene->removeSelectedNodes();
 }

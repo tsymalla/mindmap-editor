@@ -25,8 +25,6 @@ private:
 
     MindmapNode* _selectedNode;
 
-    void _removeSelectedNodes();
-
 public:
     MindmapScene(QObject* parent = nullptr);
     QString toJSON() const;
@@ -36,11 +34,11 @@ public:
     MindmapNode* addNode(const std::string& content);
     MindmapNode* getNodeById(const size_t id) const;
     int getNodeCount() const;
+    void removeSelectedNodes();
 
     void reset();
 
 public slots:
-    void nodeAdded();
     void nodePositionChanged(MindmapNode* node);
     void selectionChanged(MindmapNode* node);
     void nodeDoubleClick(MindmapNode* node);

@@ -18,7 +18,6 @@ public:
     ~MainWindow();
 
 signals:
-    void nodeAdded();
     void nodeContentChanged(MindmapNode* node, const std::string& content);
 
 public slots:
@@ -35,6 +34,8 @@ private slots:
     void on_action_About_triggered();
 
     void on_action_Open_file_triggered();
+
+    void on_actionRemove_node_triggered();
 
 private:
     Ui::MainWindow *ui;
