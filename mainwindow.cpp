@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QFileDialog>
 #include <QInputDialog>
+#include <QKeyEvent>
 
 MainWindow::MainWindow(QWidget *parent) :
                                           QMainWindow(parent),

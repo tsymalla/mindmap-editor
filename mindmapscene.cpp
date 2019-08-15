@@ -149,6 +149,10 @@ void MindmapScene::keyReleaseEvent(QKeyEvent *event)
     {
         addNode();
     }
+    else if (event->key() == Qt::Key::Key_F2)
+    {
+        emit passNodeDoubleClick(_selectedNode);
+    }
 }
 
 std::string MindmapScene::_getEdgeId(size_t from, size_t to) const

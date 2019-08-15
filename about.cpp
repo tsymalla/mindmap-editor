@@ -5,7 +5,7 @@
 #include <QUrl>
 
 About::About(QWidget *parent) :
-    QDialog(parent),
+    QDialog(parent, Qt::WindowSystemMenuHint | Qt::WindowTitleHint),
     ui(new Ui::About)
 {
     ui->setupUi(this);
