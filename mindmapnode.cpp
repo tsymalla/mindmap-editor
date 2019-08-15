@@ -4,7 +4,7 @@
 #include <QJsonObject>
 #include <QtMath>
 
-MindmapNode::MindmapNode(size_t nodeId, const std::string& content, const QBrush& brush, const QPen& pen, const QFont& font):
+MindmapNode::MindmapNode(size_t nodeId, const QString& content, const QBrush& brush, const QPen& pen, const QFont& font):
     _nodeId(nodeId),
     _brush(brush),
     _pen(pen),
@@ -38,7 +38,7 @@ QJsonValue MindmapNode::toJSON() const
 {
     QJsonObject json;
     json["id"] = QVariant(static_cast<unsigned int>(_nodeId)).toInt();
-    json["content"] = QString::fromStdString(_content);
+    json["content"] = _content;
 
     const auto& rect = sceneBoundingRect();
 
@@ -50,20 +50,20 @@ QJsonValue MindmapNode::toJSON() const
     return json;
 }
 
-void MindmapNode::setContent(const std::string &content)
+void MindmapNode::setContent(const QString& content)
 {
     onContentChanged(content);
 }
 
-std::string MindmapNode::getContent() const
+QString MindmapNode::getContent() const
 {
     return _content;
 }
 
-void MindmapNode::onContentChanged(const std::string &content)
+void MindmapNode::onContentChanged(const QString& content)
 {
     _content = content;
-    _textContainer->setPlainText(QString::fromStdString(_content));
+    _textContainer->setPlainText(_content);
 }
 
 void MindmapNode::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)

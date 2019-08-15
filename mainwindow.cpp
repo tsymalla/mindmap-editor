@@ -19,7 +19,6 @@ MainWindow::MainWindow(QWidget *parent) :
     _about = new About(this);
 
     connect(_mindmapScene, &MindmapScene::passNodeDoubleClick, this, &MainWindow::passNodeDoubleClick);
-    connect(this, &MainWindow::nodeContentChanged, _mindmapScene, &MindmapScene::nodeContentChanged);
     _mindmapScene->addNode("Mindmap");
 }
 
@@ -30,8 +29,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::passNodeDoubleClick(MindmapNode *node)
 {
-    auto _newContent = QInputDialog::getText(this, "Content", "Set content of the node", QLineEdit::Normal, QString::fromStdString(node->getContent()));
-    emit nodeContentChanged(node, _newContent.toStdString());
+    auto _newContent = QInputDialog::getText(this, "Content", "Set content of the node", QLineEdit::Normal, node->getContent());
+    _mindmapScene->changeNodeContent(node, _newContent);
 }
 
 void MainWindow::on_actionAdd_Node_triggered()

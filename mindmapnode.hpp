@@ -11,7 +11,7 @@ class MindmapNode: public QObject, public QGraphicsRectItem
     Q_OBJECT
 private:
     size_t _nodeId;
-    std::string _content;
+    QString _content;
     QGraphicsTextItem *_textContainer;
     QBrush _brush;
     QPen _pen;
@@ -19,7 +19,7 @@ private:
 
 public:
     MindmapNode(size_t nodeId,
-                const std::string& content,
+                const QString& content,
                 const QBrush& brush,
                 const QPen& pen,
                 const QFont& font);
@@ -27,10 +27,10 @@ public:
     size_t getNodeId() const;
 
     QJsonValue toJSON() const;
-    void setContent(const std::string& content);
-    std::string getContent() const;
+    void setContent(const QString& content);
+    QString getContent() const;
 public slots:
-    void onContentChanged(const std::string& content);
+    void onContentChanged(const QString& content);
 
 signals:
     void nodeSelected(MindmapNode* node);

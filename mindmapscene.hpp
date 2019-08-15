@@ -12,13 +12,13 @@ class MindmapScene : public QGraphicsScene
     Q_OBJECT
 private:
     std::unordered_map<size_t, std::unique_ptr<MindmapNode>> _nodes;
-    std::unordered_map<std::string, std::unique_ptr<MindmapEdge>> _nodeConnectors;
+    std::unordered_map<size_t, std::unique_ptr<MindmapEdge>> _nodeConnectors;
 
     QBrush _brush;
     QPen _pen;
     QFont _font;
 
-    std::string _getEdgeId(size_t from, size_t to) const;
+    size_t _getEdgeId(size_t from, size_t to) const;
     size_t _lastNodeId;
 
     void _addEdge(MindmapNode* from, MindmapNode* to);
@@ -31,10 +31,11 @@ public:
     void fromJSON(const QString& json);
 
     MindmapNode* addNode();
-    MindmapNode* addNode(const std::string& content);
+    MindmapNode* addNode(const QString& content);
     MindmapNode* getNodeById(const size_t id) const;
     int getNodeCount() const;
     void removeSelectedNodes();
+    void changeNodeContent(MindmapNode* node, const QString& content);
 
     void reset();
 
@@ -42,7 +43,6 @@ public slots:
     void nodePositionChanged(MindmapNode* node);
     void selectionChanged(MindmapNode* node);
     void nodeDoubleClick(MindmapNode* node);
-    void nodeContentChanged(MindmapNode* node, const std::string& content);
 
 signals:
     void passNodeDoubleClick(MindmapNode* node);

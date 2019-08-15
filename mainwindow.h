@@ -17,9 +17,6 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-signals:
-    void nodeContentChanged(MindmapNode* node, const std::string& content);
-
 public slots:
     void passNodeDoubleClick(MindmapNode* node);
 

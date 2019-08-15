@@ -48,7 +48,7 @@ MindmapNode *MindmapScene::addNode()
     return addNode("");
 }
 
-MindmapNode *MindmapScene::addNode(const std::string &content)
+MindmapNode *MindmapScene::addNode(const QString& content)
 {
     std::mutex m;
     std::lock_guard<std::mutex> guard(m);
@@ -56,9 +56,9 @@ MindmapNode *MindmapScene::addNode(const std::string &content)
     ++_lastNodeId;
 
     auto actualContent = content;
-    if (content.empty())
+    if (content.isEmpty())
     {
-        actualContent = "Node " + std::to_string(_lastNodeId);
+        actualContent = "Node " + QString::number(_lastNodeId);
     }
 
     auto node = std::make_unique<MindmapNode>(_lastNodeId, actualContent, _brush, _pen, _font);
@@ -133,7 +133,7 @@ void MindmapScene::nodeDoubleClick(MindmapNode *node)
     emit passNodeDoubleClick(node);
 }
 
-void MindmapScene::nodeContentChanged(MindmapNode* node, const std::string &content)
+void MindmapScene::changeNodeContent(MindmapNode* node, const QString& content)
 {
     node->setContent(content);
     update();
@@ -147,9 +147,9 @@ void MindmapScene::keyReleaseEvent(QKeyEvent *event)
     }
 }
 
-std::string MindmapScene::_getEdgeId(size_t from, size_t to) const
+size_t MindmapScene::_getEdgeId(size_t from, size_t to) const
 {
-    return std::to_string(from) + "_" + std::to_string(to);
+    return (from ^ to);
 }
 
 void MindmapScene::_addEdge(MindmapNode* from, MindmapNode* to)
@@ -174,7 +174,7 @@ void MindmapScene::removeSelectedNodes()
         return;
     }
 
-    std::vector<std::string> removables;
+    std::vector<size_t> removables;
     for (const auto& connector: _nodeConnectors)
     {
         auto edge = connector.second.get();
