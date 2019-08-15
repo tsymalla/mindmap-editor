@@ -12,13 +12,13 @@ class MindmapScene : public QGraphicsScene
     Q_OBJECT
 private:
     std::unordered_map<size_t, std::unique_ptr<MindmapNode>> _nodes;
-    std::unordered_map<size_t, std::unique_ptr<MindmapEdge>> _nodeConnectors;
+    std::unordered_map<std::string, std::unique_ptr<MindmapEdge>> _nodeConnectors;
 
     QBrush _brush;
     QPen _pen;
     QFont _font;
 
-    size_t _getEdgeId(size_t from, size_t to) const;
+    std::string _getEdgeId(size_t from, size_t to) const;
     size_t _lastNodeId;
 
     void _addEdge(MindmapNode* from, MindmapNode* to);
