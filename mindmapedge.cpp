@@ -35,11 +35,11 @@ void MindmapEdge::_calculateConnectionPoints()
     _point1 = minPoint1;
     _point2 = minPoint2;
 
-    for (size_t i = 1; i < _edgePoints1.size(); ++i)
+    for (size_t i = 0; i < _edgePoints1.size(); ++i)
     {
         vec1 = QVector2D(_edgePoints1[i]);
 
-        for (size_t j = 1; j < _edgePoints2.size(); ++j)
+        for (size_t j = 0; j < _edgePoints2.size(); ++j)
         {
             vec2 = QVector2D(_edgePoints2[j]);
 
