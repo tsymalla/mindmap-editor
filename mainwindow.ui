@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1024</width>
+    <height>768</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,7 +25,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1024</width>
      <height>26</height>
     </rect>
    </property>
@@ -37,6 +37,8 @@
     <addaction name="separator"/>
     <addaction name="action_Open_file"/>
     <addaction name="action_Save"/>
+    <addaction name="separator"/>
+    <addaction name="actionE_xport"/>
     <addaction name="separator"/>
     <addaction name="action_Exit"/>
    </widget>
@@ -70,6 +72,11 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="action_New_Mindmap"/>
+   <addaction name="separator"/>
+   <addaction name="action_Open_file"/>
+   <addaction name="action_Save"/>
+   <addaction name="separator"/>
    <addaction name="actionAdd_Node"/>
    <addaction name="actionRemove_node"/>
    <addaction name="separator"/>
@@ -81,7 +88,8 @@
   <widget class="QStatusBar" name="statusBar"/>
   <action name="action_New_Mindmap">
    <property name="icon">
-    <iconset theme=":icons/new.ico"/>
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/new.ico</normaloff>:/icons/new.ico</iconset>
    </property>
    <property name="text">
     <string>&amp;New Mindmap...</string>
@@ -92,7 +100,8 @@
   </action>
   <action name="action_Open_file">
    <property name="icon">
-    <iconset theme=":icons/open.ico"/>
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/open.ico</normaloff>:/icons/open.ico</iconset>
    </property>
    <property name="text">
     <string>&amp;Open file</string>
@@ -103,7 +112,8 @@
   </action>
   <action name="action_Save">
    <property name="icon">
-    <iconset theme=":icons/save.ico"/>
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/save.ico</normaloff>:/icons/save.ico</iconset>
    </property>
    <property name="text">
     <string>&amp;Save</string>
@@ -119,7 +129,8 @@
   </action>
   <action name="action_Undo">
    <property name="icon">
-    <iconset theme=":icons/undo.ico"/>
+    <iconset theme=":icons/undo.ico" resource="icons.qrc">
+     <normaloff>:/icons/undo.ico</normaloff>:/icons/undo.ico</iconset>
    </property>
    <property name="text">
     <string>&amp;Undo</string>
@@ -130,7 +141,8 @@
   </action>
   <action name="action_Redo">
    <property name="icon">
-    <iconset theme=":icons/redo.ico"/>
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/redo.ico</normaloff>:/icons/redo.ico</iconset>
    </property>
    <property name="text">
     <string>&amp;Redo</string>
@@ -141,7 +153,8 @@
   </action>
   <action name="action_About">
    <property name="icon">
-    <iconset theme=":icons/about.ico"/>
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/about.ico</normaloff>:/icons/about.ico</iconset>
    </property>
    <property name="text">
     <string>&amp;About</string>
@@ -152,7 +165,8 @@
   </action>
   <action name="actionAdd_Node">
    <property name="icon">
-    <iconset theme=":icons/add_node.ico"/>
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/add_node.ico</normaloff>:/icons/add_node.ico</iconset>
    </property>
    <property name="text">
     <string>Add Node</string>
@@ -163,7 +177,8 @@
   </action>
   <action name="actionRemove_node">
    <property name="icon">
-    <iconset theme=":icons/remove_node.ico"/>
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/remove_node.ico</normaloff>:/icons/remove_node.ico</iconset>
    </property>
    <property name="text">
     <string>Remove node</string>
@@ -175,8 +190,15 @@
     <string>Del</string>
    </property>
   </action>
+  <action name="actionE_xport">
+   <property name="text">
+    <string>E&amp;xport as image...</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

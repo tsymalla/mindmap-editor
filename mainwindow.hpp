@@ -34,6 +34,8 @@ private slots:
 
     void on_actionRemove_node_triggered();
 
+    void on_actionE_xport_triggered();
+
 private:
     Ui::MainWindow *ui;
     MindmapScene *_mindmapScene;

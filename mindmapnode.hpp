@@ -29,8 +29,8 @@ public:
     QJsonValue toJSON() const;
     void setContent(const QString& content);
     QString getContent() const;
-public slots:
-    void onContentChanged(const QString& content);
+
+    void resize();
 
 signals:
     void nodeSelected(MindmapNode* node);

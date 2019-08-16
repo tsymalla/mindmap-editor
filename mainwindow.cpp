@@ -109,3 +109,8 @@ void MainWindow::on_actionRemove_node_triggered()
 {
     _mindmapScene->removeSelectedNodes();
 }
+
+void MainWindow::on_actionE_xport_triggered()
+{
+
+}

@@ -97,6 +97,10 @@ void MindmapScene::reset()
 {
     _nodes.clear();
     _nodeConnectors.clear();
+
+    _selectedNode = nullptr;
+    _lastNodeId = 0;
+
     clear();
     update();
 }
@@ -137,15 +141,13 @@ void MindmapScene::changeNodeContent(MindmapNode* node, const QString& content)
 {
     node->setContent(content);
     update();
+    node->resize();
+    update();
 }
 
 void MindmapScene::keyReleaseEvent(QKeyEvent *event)
 {
-    if (event->key() == Qt::Key::Key_Delete)
-    {
-        removeSelectedNodes();
-    }
-    else if (event->key() == Qt::Key::Key_Tab)
+    if (event->key() == Qt::Key::Key_Tab)
     {
         addNode();
     }
@@ -200,15 +202,16 @@ void MindmapScene::removeSelectedNodes()
 
     _nodes.erase(_selectedNode->getNodeId());
 
-    /*if (!_nodes.empty())
+    if (!_nodes.empty())
     {
-        auto firstNode = _nodes[0].get();
+        auto firstNode = _nodes.begin()->second.get();
+        _selectedNode = firstNode;
         selectionChanged(firstNode);
     }
     else
-    {*/
+    {
         _selectedNode = nullptr;
-    //}
+    }
 
     update();
 }

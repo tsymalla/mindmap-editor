@@ -26,7 +26,9 @@ MindmapNode::MindmapNode(size_t nodeId, const QString& content, const QBrush& br
     _textContainer = new QGraphicsTextItem(this);
     _textContainer->setPos(sceneBoundingRect().x(), sceneBoundingRect().y());
 
-    onContentChanged(content);
+    setContent(content);
+
+    resize();
 }
 
 size_t MindmapNode::getNodeId() const
@@ -52,7 +54,8 @@ QJsonValue MindmapNode::toJSON() const
 
 void MindmapNode::setContent(const QString& content)
 {
-    onContentChanged(content);
+    _content = content;
+    _textContainer->setPlainText(_content);
 }
 
 QString MindmapNode::getContent() const
@@ -60,10 +63,10 @@ QString MindmapNode::getContent() const
     return _content;
 }
 
-void MindmapNode::onContentChanged(const QString& content)
+void MindmapNode::resize()
 {
-    _content = content;
-    _textContainer->setPlainText(_content);
+    auto _textRect = _textContainer->sceneBoundingRect();
+    sceneBoundingRect().setRect(_textRect.x(), _textRect.y(), _textRect.width(), _textRect.height());
 }
 
 void MindmapNode::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
