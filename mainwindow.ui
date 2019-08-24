@@ -38,7 +38,7 @@
     <addaction name="action_Open_file"/>
     <addaction name="action_Save"/>
     <addaction name="separator"/>
-    <addaction name="actionE_xport"/>
+    <addaction name="actionExport"/>
     <addaction name="separator"/>
     <addaction name="action_Exit"/>
    </widget>
@@ -190,7 +190,7 @@
     <string>Del</string>
    </property>
   </action>
-  <action name="actionE_xport">
+  <action name="actionExport">
    <property name="text">
     <string>E&amp;xport as image...</string>
    </property>

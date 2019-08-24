@@ -8,12 +8,16 @@
 
 MindmapScene::MindmapScene(QObject* parent): QGraphicsScene (parent), _lastNodeId(0), _selectedNode(nullptr)
 {
+    _backgroundBrush.setColor(Qt::white);
+
     _brush.setColor(Qt::green);
     _brush.setStyle(Qt::BrushStyle::SolidPattern);
 
     _pen.setColor(Qt::black);
     _font.setFamily("Arial");
     _font.setWeight(20);
+
+    setBackgroundBrush(_backgroundBrush);
 }
 
 QString MindmapScene::toJSON() const

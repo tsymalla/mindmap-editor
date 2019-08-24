@@ -14,6 +14,7 @@ private:
     std::unordered_map<size_t, std::unique_ptr<MindmapNode>> _nodes;
     std::unordered_map<std::string, std::unique_ptr<MindmapEdge>> _nodeConnectors;
 
+    QBrush _backgroundBrush;
     QBrush _brush;
     QPen _pen;
     QFont _font;

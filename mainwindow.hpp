@@ -23,18 +23,12 @@ public slots:
 private slots:
     void on_actionAdd_Node_triggered();
     void on_action_Exit_triggered();
-
     void on_action_Save_triggered();
-
     void on_action_New_Mindmap_triggered();
-
     void on_action_About_triggered();
-
     void on_action_Open_file_triggered();
-
     void on_actionRemove_node_triggered();
-
-    void on_actionE_xport_triggered();
+    void on_actionExport_triggered();
 
 private:
     Ui::MainWindow *ui;

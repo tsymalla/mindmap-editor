@@ -42,14 +42,9 @@ void MainWindow::on_actionAdd_Node_triggered()
 
 void MainWindow::on_action_Exit_triggered()
 {
-    QMessageBox confirm;
-    confirm.setInformativeText("The mindmap has been changed.");
-    confirm.setText("Do you want to save your changes?");
-    confirm.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+    auto button = QMessageBox::information(this, tr("The mindmap has been changed."), tr("Do you want to save your changes?"), QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
 
-    auto ret = confirm.exec();
-
-    if (ret == QMessageBox::Save || ret == QMessageBox::Discard)
+    if (button == QMessageBox::Save || button == QMessageBox::Discard)
     {
         QApplication::exit();
     }
@@ -110,7 +105,30 @@ void MainWindow::on_actionRemove_node_triggered()
     _mindmapScene->removeSelectedNodes();
 }
 
-void MainWindow::on_actionE_xport_triggered()
+void MainWindow::on_actionExport_triggered()
 {
+    auto fileName = QFileDialog::getSaveFileName(this, tr("Export mindmap to image..."), QDir::currentPath(), tr("Image files (*.png *.jpg *.bmp)"));
 
+    if (!fileName.isNull())
+    {
+        const auto& sceneRect = _mindmapScene->sceneRect();
+
+        QSize sceneRectSize {static_cast<int>(sceneRect.width()), static_cast<int>(sceneRect.height())};
+        QImage exportImage(sceneRectSize, QImage::Format_ARGB32);
+        exportImage.fill(Qt::transparent);
+
+        QPainter painter(&exportImage);
+
+        painter.setRenderHint(QPainter::Antialiasing);
+        _mindmapScene->render(&painter);
+
+        if (exportImage.save(fileName))
+        {
+            QMessageBox::information(this, tr("Success"), QString("Image successfully saved to path " + fileName + "."));
+        }
+        else
+        {
+            QMessageBox::warning(this, tr("Export failed"), tr("Could not save image to file."));
+        }
+    }
 }
