@@ -122,6 +122,8 @@ void MindmapScene::nodePositionChanged(MindmapNode* node)
     }
 
     update();
+
+    emit notifyMindmapChanged(false);
 }
 
 void MindmapScene::selectionChanged(MindmapNode* node)
@@ -154,6 +156,8 @@ void MindmapScene::keyReleaseEvent(QKeyEvent *event)
     if (event->key() == Qt::Key::Key_Tab)
     {
         addNode();
+
+        emit notifyMindmapChanged(false);
     }
     else if (event->key() == Qt::Key::Key_F2)
     {
@@ -218,4 +222,6 @@ void MindmapScene::removeSelectedNodes()
     }
 
     update();
+
+    emit notifyMindmapChanged(false);
 }

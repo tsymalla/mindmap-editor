@@ -16,11 +16,20 @@ MainWindow::MainWindow(QWidget *parent) :
 
     _mindmapScene = new MindmapScene(this);
     ui->mindmapView->setScene(_mindmapScene);
+    ui->mindmapView->setBackgroundBrush(QBrush(Qt::white, Qt::SolidPattern));
 
     _about = new About(this);
 
     connect(_mindmapScene, &MindmapScene::passNodeDoubleClick, this, &MainWindow::passNodeDoubleClick);
+    connect(this, &MainWindow::notifyMindmapChanged, this, &MainWindow::onMindmapChange);
+    // scene emits an change, for example by using an shortkey or by dragging an node
+    connect(_mindmapScene, &MindmapScene::notifyMindmapChanged, this, &MainWindow::onMindmapChange);
+
     _mindmapScene->addNode("Mindmap");
+    _currentFileName = "Untitled";
+
+    // user has not edited anything yet
+    emit notifyMindmapChanged(true);
 }
 
 MainWindow::~MainWindow()
@@ -32,22 +41,28 @@ void MainWindow::passNodeDoubleClick(MindmapNode *node)
 {
     auto _newContent = QInputDialog::getText(this, "Content", "Set content of the node", QLineEdit::Normal, node->getContent());
     _mindmapScene->changeNodeContent(node, _newContent);
+
+    emit notifyMindmapChanged(false);
 }
 
 void MainWindow::on_actionAdd_Node_triggered()
 {
     _mindmapScene->addNode();
     ui->statusBar->showMessage(tr("%n nodes in mind map.", "", _mindmapScene->getNodeCount()));
+
+    emit notifyMindmapChanged(false);
 }
 
 void MainWindow::on_action_Exit_triggered()
 {
-    auto button = QMessageBox::information(this, tr("The mindmap has been changed."), tr("Do you want to save your changes?"), QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
-
-    if (button == QMessageBox::Save || button == QMessageBox::Discard)
+    if (!_shouldSave())
     {
         QApplication::exit();
+        return;
     }
+
+    on_action_Save_triggered();
+    QApplication::exit();
 }
 
 void MainWindow::on_action_Save_triggered()
@@ -68,13 +83,25 @@ void MainWindow::on_action_Save_triggered()
             QTextStream stream(&file);
             stream << _mindmapScene->toJSON();
             file.close();
+
+            _currentFileName = QFileInfo(fileName).fileName();
+
+            emit notifyMindmapChanged(true);
         }
     }
 }
 
 void MainWindow::on_action_New_Mindmap_triggered()
 {
+    if (_shouldSave())
+    {
+        on_action_Save_triggered();
+    }
+
+    _currentFileName = "Untitled";
     _mindmapScene->reset();
+
+    emit notifyMindmapChanged(true);
 }
 
 void MainWindow::on_action_About_triggered()
@@ -84,6 +111,11 @@ void MainWindow::on_action_About_triggered()
 
 void MainWindow::on_action_Open_file_triggered()
 {
+    if (_shouldSave())
+    {
+        on_action_Save_triggered();
+    }
+
     auto fileName = QFileDialog::getOpenFileName(this, tr("Open file..."), QDir::currentPath(), tr("SimpleMind files (*.mmp)"));
 
     if (!fileName.isNull())
@@ -96,6 +128,11 @@ void MainWindow::on_action_Open_file_triggered()
             QString data = stream.readAll();
             _mindmapScene->fromJSON(data);
             file.close();
+
+            _currentFileName = QFileInfo(fileName).fileName();
+
+            // new opened file was not changed yet, show no indicator
+            emit notifyMindmapChanged(true);
         }
     }
 }
@@ -103,6 +140,8 @@ void MainWindow::on_action_Open_file_triggered()
 void MainWindow::on_actionRemove_node_triggered()
 {
     _mindmapScene->removeSelectedNodes();
+
+    emit notifyMindmapChanged(false);
 }
 
 void MainWindow::on_actionExport_triggered()
@@ -131,4 +170,31 @@ void MainWindow::on_actionExport_triggered()
             QMessageBox::warning(this, tr("Export failed"), tr("Could not save image to file."));
         }
     }
+}
+
+void MainWindow::onMindmapChange(bool wasSaved)
+{
+    _fileHasChanged = !wasSaved;
+    QString newTitle = QCoreApplication::applicationName() + " (" + _currentFileName;
+
+    if (_fileHasChanged)
+    {
+        newTitle += "*";
+    }
+
+    newTitle += ")";
+
+    setWindowTitle(newTitle);
+}
+
+bool MainWindow::_shouldSave()
+{
+    if (!_fileHasChanged)
+    {
+        return false;
+    }
+
+    auto button = QMessageBox::information(this, tr("The mindmap has been changed."), tr("Do you want to save your changes?"), QMessageBox::Save | QMessageBox::Cancel);
+
+    return (button == QMessageBox::Save);
 }

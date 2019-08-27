@@ -29,12 +29,21 @@ private slots:
     void on_action_Open_file_triggered();
     void on_actionRemove_node_triggered();
     void on_actionExport_triggered();
+    void onMindmapChange(bool wasSaved);
+
+signals:
+    void notifyMindmapChanged(bool wasSaved);
 
 private:
     Ui::MainWindow *ui;
     MindmapScene *_mindmapScene;
 
     About* _about;
+
+    bool _fileHasChanged = false;
+    QString _currentFileName;
+
+    bool _shouldSave();
 };
 
 #endif // MAINWINDOW_H

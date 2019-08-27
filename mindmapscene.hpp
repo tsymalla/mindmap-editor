@@ -47,6 +47,7 @@ public slots:
 
 signals:
     void passNodeDoubleClick(MindmapNode* node);
+    void notifyMindmapChanged(bool wasSaved);
 
 protected:
     void keyReleaseEvent(QKeyEvent *event) override;
