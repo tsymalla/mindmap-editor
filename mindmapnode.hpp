@@ -27,6 +27,7 @@ public:
     size_t getNodeId() const;
 
     QJsonValue toJSON() const;
+    void fromJSON(const QJsonObject& jsonObject);
     void setContent(const QString& content);
     QString getContent() const;
 

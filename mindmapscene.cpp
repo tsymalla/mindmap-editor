@@ -5,6 +5,7 @@
 #include <mutex>
 #include <QDebug>
 #include <QKeyEvent>
+#include <QJsonObject>
 
 MindmapScene::MindmapScene(QObject* parent): QGraphicsScene (parent), _lastNodeId(0), _selectedNode(nullptr)
 {
@@ -42,9 +43,15 @@ void MindmapScene::fromJSON(const QString &json)
 
     for (const auto node: obj.array())
     {
+        auto newNode = addNode();
+        newNode->fromJSON(node.toObject());
     }
 
-    qDebug() << obj;
+    for (const auto& node: _nodes)
+    {
+        node.second->resize();
+        nodePositionChanged(node.second.get());
+    }
 }
 
 MindmapNode *MindmapScene::addNode()
