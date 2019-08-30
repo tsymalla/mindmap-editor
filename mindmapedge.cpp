@@ -5,13 +5,13 @@
 
 void MindmapEdge::_calculateConnectionPoints()
 {
-    if (_from == nullptr || _to == nullptr)
+    if (_nodeFrom == nullptr || _nodeTo == nullptr)
     {
         return;
     }
 
-    const auto& rect = _from->sceneBoundingRect();
-    const auto& rect2 = _to->sceneBoundingRect();
+    const auto& rect = _nodeFrom->sceneBoundingRect();
+    const auto& rect2 = _nodeTo->sceneBoundingRect();
 
     std::vector<QPointF> _edgePoints1 = {
         {rect.x(), rect.y()},
@@ -60,18 +60,16 @@ void MindmapEdge::redraw()
     setLine(_point1.x(), _point1.y(), _point2.x(), _point2.y());
 }
 
-MindmapEdge::MindmapEdge(MindmapNode *from, MindmapNode *to, const QPen& pen): _from(from), _to(to), _pen(pen)
+MindmapEdge::MindmapEdge(NodeRawPtr nodeFrom, NodeRawPtr nodeTo): _nodeFrom(nodeFrom), _nodeTo(nodeTo)
 {
-    setPen(_pen);
-    redraw();
 }
 
-bool MindmapEdge::isFrom(MindmapNode *from) const
+bool MindmapEdge::isOutgoingNode(NodeRawPtr nodeFrom) const
 {
-    return _from->getNodeId() == from->getNodeId();
+    return _nodeFrom->getNodeId() == nodeFrom->getNodeId();
 }
 
-bool MindmapEdge::isTo(MindmapNode *to) const
+bool MindmapEdge::isIncomingNode(NodeRawPtr nodeTo) const
 {
-    return _to->getNodeId() == to->getNodeId();
+    return _nodeTo->getNodeId() == nodeTo->getNodeId();
 }

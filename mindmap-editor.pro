@@ -30,13 +30,16 @@ SOURCES += \
         about.cpp \
         main.cpp \
         mainwindow.cpp \
+        mindmap.cpp \
         mindmapedge.cpp \
         mindmapnode.cpp \
         mindmapscene.cpp
 
 HEADERS += \
         about.hpp \
+        definitions.hpp \
         mainwindow.hpp \
+        mindmap.hpp \
         mindmapedge.hpp \
         mindmapnode.hpp \
         mindmapscene.hpp

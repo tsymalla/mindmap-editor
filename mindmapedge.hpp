@@ -8,18 +8,17 @@
 class MindmapEdge: public QGraphicsLineItem
 {
 private:
-    MindmapNode* _from;
-    MindmapNode* _to;
-    QPen _pen;
+    NodeRawPtr _nodeFrom;
+    NodeRawPtr _nodeTo;
     QPointF _point1;
     QPointF _point2;
 
     void _calculateConnectionPoints();
 public:
-    MindmapEdge(MindmapNode* from, MindmapNode* to, const QPen& pen);
+    MindmapEdge(NodeRawPtr nodeFrom, NodeRawPtr nodeTo);
 
-    bool isFrom(MindmapNode* from) const;
-    bool isTo(MindmapNode* to) const;
+    bool isOutgoingNode(NodeRawPtr nodeFrom) const;
+    bool isIncomingNode(NodeRawPtr nodeTo) const;
 
     void redraw();
 };

@@ -4,11 +4,8 @@
 #include <QJsonObject>
 #include <QtMath>
 
-MindmapNode::MindmapNode(size_t nodeId, const QString& content, const QBrush& brush, const QPen& pen, const QFont& font):
-    _nodeId(nodeId),
-    _brush(brush),
-    _pen(pen),
-    _font(font)
+MindmapNode::MindmapNode(NodeId nodeId, const QString& content):
+    _nodeId(nodeId)
 {
     auto sin = qRadiansToDegrees(qSin(qreal(_nodeId)));
     auto cos = qRadiansToDegrees(qCos(qreal(_nodeId)));
@@ -19,9 +16,9 @@ MindmapNode::MindmapNode(size_t nodeId, const QString& content, const QBrush& br
             40.0);
 
     setFlag(QGraphicsItem::ItemIsMovable);
-    setBrush(_brush);
+    /*setBrush(_brush);
 
-    setPen(_pen);
+    setPen(_pen);*/
 
     _textContainer = new QGraphicsTextItem(this);
     _textContainer->setPos(sceneBoundingRect().x(), sceneBoundingRect().y());
@@ -31,7 +28,7 @@ MindmapNode::MindmapNode(size_t nodeId, const QString& content, const QBrush& br
     resize();
 }
 
-size_t MindmapNode::getNodeId() const
+NodeId MindmapNode::getNodeId() const
 {
     return _nodeId;
 }
