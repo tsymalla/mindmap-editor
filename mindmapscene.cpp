@@ -81,13 +81,13 @@ void MindmapScene::nodePositionChanged(MindmapNode* node)
 
 void MindmapScene::selectionChanged(MindmapNode* node)
 {
-    if (_selectedNode != nullptr)
+    /*if (_selectedNode != nullptr)
     {
         _selectedNode->setBrush(_brush);
     }
 
     _selectedNode = node;
-    _selectedNode->setBrush(QBrush(Qt::blue));
+    _selectedNode->setBrush(QBrush(Qt::blue));*/
 }
 
 void MindmapScene::nodeDoubleClick(MindmapNode *node)
@@ -100,7 +100,7 @@ void MindmapScene::changeNodeContent(MindmapNode* node, const QString& content)
 {
     node->setContent(content);
     update();
-    node->resize();
+    //node->resize();
     update();
 }
 

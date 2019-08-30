@@ -10,7 +10,7 @@ void MindmapEdge::_calculateConnectionPoints()
         return;
     }
 
-    const auto& rect = _nodeFrom->sceneBoundingRect();
+    /*const auto& rect = _nodeFrom->sceneBoundingRect();
     const auto& rect2 = _nodeTo->sceneBoundingRect();
 
     std::vector<QPointF> _edgePoints1 = {
@@ -51,7 +51,7 @@ void MindmapEdge::_calculateConnectionPoints()
                 _point2 = _edgePoints2[j];
             }
         }
-    }
+    }*/
 }
 
 void MindmapEdge::redraw()
