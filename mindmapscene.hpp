@@ -28,7 +28,7 @@ public:
 
 public slots:
     void nodePositionChanged(NodeRawPtr node);
-    void selectionChanged(NodeRawPtr node);
+    void nodeSelectionChanged(NodeRawPtr node);
     void nodeDoubleClick(NodeRawPtr node);
 
 signals:

@@ -62,7 +62,7 @@ void MindmapScene::reset()
     update();
 }
 
-void MindmapScene::nodePositionChanged(MindmapNode* node)
+void MindmapScene::nodePositionChanged(NodeRawPtr node)
 {
     /*for (const auto& it: _nodeConnectors)
     {
@@ -79,7 +79,7 @@ void MindmapScene::nodePositionChanged(MindmapNode* node)
     emit notifyMindmapChanged(false);
 }
 
-void MindmapScene::selectionChanged(MindmapNode* node)
+void MindmapScene::nodeSelectionChanged(NodeRawPtr node)
 {
     /*if (_selectedNode != nullptr)
     {
@@ -90,13 +90,13 @@ void MindmapScene::selectionChanged(MindmapNode* node)
     _selectedNode->setBrush(QBrush(Qt::blue));*/
 }
 
-void MindmapScene::nodeDoubleClick(MindmapNode *node)
+void MindmapScene::nodeDoubleClick(NodeRawPtr node)
 {
     // pass-through signal to main window
     emit passNodeDoubleClick(node);
 }
 
-void MindmapScene::changeNodeContent(MindmapNode* node, const QString& content)
+void MindmapScene::changeNodeContent(NodeRawPtr node, const QString& content)
 {
     node->setContent(content);
     update();
@@ -118,12 +118,6 @@ void MindmapScene::keyReleaseEvent(QKeyEvent *event)
     }
 }
 
-
-/*void MindmapScene::_addEdge(MindmapNode* from, MindmapNode* to)
-{
-    addItem(ptr);
-}*/
-
 void MindmapScene::removeSelectedNodes()
 {
     if (_selectedNode == nullptr)
@@ -131,16 +125,10 @@ void MindmapScene::removeSelectedNodes()
         return;
     }
 
-    /*if (!_nodes.empty())
-    {
-        auto firstNode = _mindMap._nodes.begin()->second.get();
-        _selectedNode = firstNode;
-        selectionChanged(firstNode);
-    }
-    else
-    {
-        _selectedNode = nullptr;
-    }*/
+    auto firstNode = _mindmap.getFirstNode();
+
+    _selectedNode = firstNode;
+    selectionChanged();
 
     update();
 

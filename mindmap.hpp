@@ -33,6 +33,7 @@ public:
     NodeRawPtr getNodeById(const NodeId id) const;
     int getNodeCount() const;
     bool removeNode(NodeRawPtr node);
+    NodeRawPtr getFirstNode() const;
 
     EdgeList getEdgesFromNode(const NodeId nodeId) const;
     EdgeList getAdjacentNodesFromNode(const NodeId nodeId) const;

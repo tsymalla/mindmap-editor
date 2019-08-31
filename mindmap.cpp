@@ -87,6 +87,17 @@ bool Mindmap::removeNode(NodeRawPtr node)
     _nodes.erase(node->getNodeId());
 }
 
+NodeRawPtr Mindmap::getFirstNode() const
+{
+    if (!_nodes.empty())
+    {
+        auto firstNode = _nodes.begin()->second.get();
+        return firstNode;
+    }
+
+    return nullptr;
+}
+
 EdgeList Mindmap::getEdgesFromNode(const NodeId nodeId) const
 {
 
