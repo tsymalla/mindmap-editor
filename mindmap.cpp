@@ -79,6 +79,17 @@ NodeRawPtr Mindmap::getLastNode() const
     return _nodes.begin()->second.get();
 }
 
+NodeRawPtr Mindmap::getFirstNode() const
+{
+    if (!_nodes.empty())
+    {
+        auto firstNode = _nodes.begin()->second.get();
+        return firstNode;
+    }
+
+    return nullptr;
+}
+
 EdgeList Mindmap::getEdgesFromNode(const NodeId nodeId) const
 {
 

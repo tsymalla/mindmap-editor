@@ -32,6 +32,7 @@ SOURCES += \
         mainwindow.cpp \
         mindmap.cpp \
         mindmapedge.cpp \
+        mindmapedgegraphicsitem.cpp \
         mindmapnode.cpp \
         mindmapnodegraphicsitem.cpp \
         mindmapscene.cpp
@@ -42,6 +43,7 @@ HEADERS += \
         mainwindow.hpp \
         mindmap.hpp \
         mindmapedge.hpp \
+        mindmapedgegraphicsitem.hpp \
         mindmapnode.hpp \
         mindmapnodegraphicsitem.hpp \
         mindmapscene.hpp
