@@ -6,11 +6,6 @@ Mindmap::Mindmap(QObject* parent): QObject{parent}, _lastNodeId{0}
 
 }
 
-NodeRawPtr Mindmap::addNode()
-{
-    return addNode("");
-}
-
 NodeRawPtr Mindmap::addNode(const NodeRawPtr parent)
 {
     return addNode("", parent);
@@ -32,21 +27,12 @@ NodeRawPtr Mindmap::addNode(const QString& content, const NodeRawPtr parent)
     auto node = std::make_unique<MindmapNode>(_lastNodeId, actualContent);
 
     auto ptr = node.get();
-    /*
-    connect(ptr, &MindmapNode::nodeSelected, this, &MindmapScene::selectionChanged);
-    connect(ptr, &MindmapNode::positionChanged, this, &MindmapScene::nodePositionChanged);
-    connect(ptr, &MindmapNode::nodeDoubleClick, this, &MindmapScene::nodeDoubleClick);*/
-
     _nodes.insert(std::make_pair(_lastNodeId, std::move(node)));
-
-    //addItem(ptr);
 
     if (parent != nullptr)
     {
         _addEdge(parent, ptr);
     }
-
-    //selectionChanged(ptr);
 
     return ptr;
 }
@@ -63,6 +49,11 @@ int Mindmap::getNodeCount() const
 
 bool Mindmap::removeNode(NodeRawPtr node)
 {
+    if (_nodes.size() - 1 == 0)
+    {
+        return false;
+    }
+
     std::vector<QString> removables;
     for (const auto& edge: _edges)
     {
@@ -74,17 +65,18 @@ bool Mindmap::removeNode(NodeRawPtr node)
         }
     }
 
-    if (removables.empty())
-    {
-        return false;
-    }
-
     for (const auto& removable: removables)
     {
         _edges.erase(removable);
     }
 
     _nodes.erase(node->getNodeId());
+    return true;
+}
+
+NodeRawPtr Mindmap::getLastNode() const
+{
+    return _nodes.begin()->second.get();
 }
 
 EdgeList Mindmap::getEdgesFromNode(const NodeId nodeId) const

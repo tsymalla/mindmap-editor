@@ -15,6 +15,8 @@ private:
     NodeRawPtr _node;
     QGraphicsTextItem *_textContainer;
 
+    void _synchronizePositionChange();
+
 protected:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
@@ -23,12 +25,13 @@ protected:
 public:
     explicit MindmapNodeGraphicsItem(NodeRawPtr node, QObject *parent = nullptr);
 
+    void changeNodeContent(const QString& content);
     void resize();
 
 signals:
-    void selected(NodeRawPtr node);
-    void positionChanged(NodeRawPtr node);
-    void doubleClicked(NodeRawPtr node);
+    void selected(MindmapNodeGraphicsItem* item, NodeRawPtr node);
+    void positionChanged(MindmapNodeGraphicsItem* item, NodeRawPtr node);
+    void doubleClicked(MindmapNodeGraphicsItem* item, NodeRawPtr node);
 };
 
 Q_DECLARE_METATYPE(MindmapNodeGraphicsItem*)

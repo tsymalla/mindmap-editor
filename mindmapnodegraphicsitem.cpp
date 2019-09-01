@@ -7,24 +7,23 @@ MindmapNodeGraphicsItem::MindmapNodeGraphicsItem(NodeRawPtr node, QObject *paren
 {
     assert(node != nullptr);
 
-    auto nodeId = node->getNodeId();
-    auto sin = qRadiansToDegrees(qSin(qreal(nodeId)));
-    auto cos = qRadiansToDegrees(qCos(qreal(nodeId)));
-
-    setRect(cos * 4.0,
-            sin * 4.0,
-            120.0,
-            40.0);
-
-    setFlag(QGraphicsItem::ItemIsMovable);
-    /*setBrush(_brush);
-
-    setPen(_pen);*/
+    setRect(_node->getX(), _node->getY(), _node->getWidth(), _node->getHeight());
+    setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable);
 
     _textContainer = new QGraphicsTextItem(this);
-    _textContainer->setPos(sceneBoundingRect().x(), sceneBoundingRect().y());
+
+    _textContainer->setPos(_node->getX(), _node->getY());
+    changeNodeContent(node->getContent());
 
     resize();
+
+    _synchronizePositionChange();
+}
+
+void MindmapNodeGraphicsItem::changeNodeContent(const QString &content)
+{
+    _node->setContent(content);
+    _textContainer->setPlainText(_node->getContent());
 }
 
 void MindmapNodeGraphicsItem::resize()
@@ -33,10 +32,20 @@ void MindmapNodeGraphicsItem::resize()
     sceneBoundingRect().setRect(_textRect.x(), _textRect.y(), _textRect.width(), _textRect.height());
 }
 
+void MindmapNodeGraphicsItem::_synchronizePositionChange()
+{
+    // synchronize change to the actual node
+    const auto& sceneRect = sceneBoundingRect();
+
+    _node->setBoundaries(sceneRect.x(), sceneRect.y(), sceneRect.width(), sceneRect.height());
+}
+
 void MindmapNodeGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
+    _synchronizePositionChange();
+
     // emit signal to the mindmap scene which will then re-calculate the corresponding edges
-    emit positionChanged(_node);
+    emit positionChanged(this, _node);
 
     // propagate event to the base object to prevent jumping of the rect
     QGraphicsRectItem::mouseReleaseEvent(event);
@@ -44,10 +53,10 @@ void MindmapNodeGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 
 void MindmapNodeGraphicsItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    emit selected(_node);
+    emit selected(this, _node);
 }
 
 void MindmapNodeGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
-    emit doubleClicked(_node);
+    emit doubleClicked(this, _node);
 }

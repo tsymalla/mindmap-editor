@@ -18,7 +18,7 @@ public:
     ~MainWindow();
 
 public slots:
-    void passNodeDoubleClick(MindmapNode* node);
+    void passNodeDoubleClick(MindmapNodeGraphicsItem* item, NodeRawPtr node);
 
 private slots:
     void on_actionAdd_Node_triggered();

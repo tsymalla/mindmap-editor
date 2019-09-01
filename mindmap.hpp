@@ -27,12 +27,12 @@ private:
 public:
     Mindmap(QObject* parent = nullptr);
 
-    NodeRawPtr addNode();
     NodeRawPtr addNode(const NodeRawPtr parent = nullptr);
     NodeRawPtr addNode(const QString& content, const NodeRawPtr parent = nullptr);
     NodeRawPtr getNodeById(const NodeId id) const;
     int getNodeCount() const;
     bool removeNode(NodeRawPtr node);
+    NodeRawPtr getLastNode() const;
 
     EdgeList getEdgesFromNode(const NodeId nodeId) const;
     EdgeList getAdjacentNodesFromNode(const NodeId nodeId) const;

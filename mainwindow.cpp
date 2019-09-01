@@ -25,11 +25,8 @@ MainWindow::MainWindow(QWidget *parent) :
     // scene emits an change, for example by using an shortkey or by dragging an node
     connect(_mindmapScene, &MindmapScene::notifyMindmapChanged, this, &MainWindow::onMindmapChange);
 
-    //_mindmapScene->addNode("Mindmap");
     _currentFileName = "Untitled";
-
-    // user has not edited anything yet
-    emit notifyMindmapChanged(true);
+    _mindmapScene->reset();
 }
 
 MainWindow::~MainWindow()
@@ -37,18 +34,18 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::passNodeDoubleClick(MindmapNode *node)
+void MainWindow::passNodeDoubleClick(MindmapNodeGraphicsItem* item, NodeRawPtr node)
 {
     auto _newContent = QInputDialog::getText(this, "Content", "Set content of the node", QLineEdit::Normal, node->getContent());
-    _mindmapScene->changeNodeContent(node, _newContent);
+    _mindmapScene->changeNodeContent(item, _newContent);
 
     emit notifyMindmapChanged(false);
 }
 
 void MainWindow::on_actionAdd_Node_triggered()
 {
-    //_mindmapScene->addNode();
-    //ui->statusBar->showMessage(tr("%n nodes in mind map.", "", _mindmapScene->getNodeCount()));
+    _mindmapScene->addNode();
+    ui->statusBar->showMessage(tr("%n nodes in mind map.", "", _mindmapScene->getNodeCount()));
 
     emit notifyMindmapChanged(false);
 }

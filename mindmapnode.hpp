@@ -13,6 +13,11 @@ private:
     NodeId _nodeId;
     QString _content;
 
+    qreal _x;
+    qreal _y;
+    qreal _width;
+    qreal _height;
+
 public:
     MindmapNode(NodeId nodeId,
                 const QString& content);
@@ -24,6 +29,20 @@ public:
 
     void setContent(const QString& content);
     QString getContent() const;
+
+    qreal getX() const;
+    void setX(qreal x);
+
+    qreal getY() const;
+    void setY(qreal y);
+
+    qreal getWidth() const;
+    void setWidth(qreal width);
+
+    qreal getHeight() const;
+    void setHeight(qreal height);
+
+    void setBoundaries(qreal x, qreal y, qreal width, qreal height);
 };
 
 Q_DECLARE_METATYPE(MindmapNode*)
