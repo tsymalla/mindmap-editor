@@ -191,7 +191,7 @@ bool MainWindow::_shouldSave()
         return false;
     }
 
-    auto button = QMessageBox::information(this, tr("The mindmap has been changed."), tr("Do you want to save your changes?"), QMessageBox::Save | QMessageBox::Cancel);
+    auto button = QMessageBox::information(this, tr("The mindmap has been changed."), tr("Do you want to save your changes?"), QMessageBox::Save | QMessageBox::Discard);
 
     return (button == QMessageBox::Save);
 }
