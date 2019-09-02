@@ -7,8 +7,9 @@
 #include "definitions.hpp"
 #include "mindmapnode.hpp"
 #include "mindmapedge.hpp"
+#include "jsonserializable.hpp"
 
-class Mindmap: public QObject
+class Mindmap: public QObject, public JSONSerializable
 {
     Q_OBJECT
 private:
@@ -26,6 +27,7 @@ private:
 
 public:
     Mindmap(QObject* parent = nullptr);
+    ~Mindmap();
 
     NodeRawPtr addNode(const NodeRawPtr parent = nullptr);
     NodeRawPtr addNode(const QString& content, const NodeRawPtr parent = nullptr);
@@ -38,6 +40,9 @@ public:
     EdgeList getAdjacentNodesFromNode(const NodeId nodeId) const;
 
     void clear();
+
+    QJsonValue toJSON() const override;
+    void fromJSON(const QString &json) override;
 };
 
 #endif // MINDMAP_HPP

@@ -78,7 +78,7 @@ void MainWindow::on_action_Save_triggered()
         if (file.open(QIODevice::WriteOnly))
         {
             QTextStream stream(&file);
-            stream << _mindmapScene->toJSON();
+            stream << _mindmapScene->toJSON().toString();
             file.close();
 
             _currentFileName = QFileInfo(fileName).fileName();

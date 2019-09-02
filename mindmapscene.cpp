@@ -22,37 +22,19 @@ MindmapScene::MindmapScene(QObject* parent): QGraphicsScene (parent), _selectedN
     setBackgroundBrush(_backgroundBrush);
 }
 
-QString MindmapScene::toJSON() const
+MindmapScene::~MindmapScene()
 {
-    QJsonArray arr;
 
-    /*for (const auto& node: _nodes)
-    {
-        arr.append(node.second->toJSON());
-    }*/
-
-    QJsonDocument doc(arr);
-
-    return QString(doc.toJson(QJsonDocument::Compact));
 }
 
 void MindmapScene::fromJSON(const QString &json)
 {
-    //clear();
+    _mindmap.fromJSON(json);
+}
 
-    QJsonDocument obj = QJsonDocument::fromJson(json.toUtf8());
-
-    /*for (const auto node: obj.array())
-    {
-        auto newNode = addNode();
-        newNode->fromJSON(node.toObject());
-    }
-
-    for (const auto& node: _nodes)
-    {
-        node.second->resize();
-        nodePositionChanged(node.second.get());
-    }*/
+QJsonValue MindmapScene::toJSON() const
+{
+    return _mindmap.toJSON();
 }
 
 void MindmapScene::_focusSelection(MindmapNodeGraphicsItem* item)
@@ -128,7 +110,7 @@ void MindmapScene::nodePositionChanged(MindmapNodeGraphicsItem* item, NodeRawPtr
 void MindmapScene::nodeSelectionChanged(MindmapNodeGraphicsItem* item, NodeRawPtr node)
 {
     _selectedNode = node;
-    _focusSelection(item);
+    //_focusSelection(item);
 }
 
 void MindmapScene::nodeDoubleClicked(MindmapNodeGraphicsItem* item, NodeRawPtr node)
@@ -141,8 +123,6 @@ void MindmapScene::changeNodeContent(MindmapNodeGraphicsItem* item, const QStrin
 {
     item->changeNodeContent(content);
     update();
-    //node->resize();
-    //update();
 }
 
 void MindmapScene::keyReleaseEvent(QKeyEvent *event)
@@ -159,11 +139,6 @@ void MindmapScene::keyReleaseEvent(QKeyEvent *event)
         emit passNodeDoubleClick(focussedNode, _selectedNode);
     }
 }
-
-/*void MindmapScene::_addEdge(MindmapNode* from, MindmapNode* to)
-{
-    addItem(ptr);
-}*/
 
 void MindmapScene::removeSelectedNodes()
 {

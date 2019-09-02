@@ -40,6 +40,7 @@ SOURCES += \
 HEADERS += \
         about.hpp \
         definitions.hpp \
+        jsonserializable.hpp \
         mainwindow.hpp \
         mindmap.hpp \
         mindmapedge.hpp \

@@ -1,7 +1,15 @@
 #include "mindmap.hpp"
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <mutex>
 
 Mindmap::Mindmap(QObject* parent): QObject{parent}, _lastNodeId{0}
+{
+
+}
+
+Mindmap::~Mindmap()
 {
 
 }
@@ -116,4 +124,33 @@ void Mindmap::clear()
     _edges.clear();
 
     _lastNodeId = 0;
+}
+
+QJsonValue Mindmap::toJSON() const
+{
+    QJsonArray arr;
+
+    /*for (const auto& node: _nodes)
+    {
+        arr.append(node.second->toJSON());
+    }*/
+
+    QJsonDocument doc(arr);
+
+    return QString(doc.toJson(QJsonDocument::Compact));
+}
+
+void Mindmap::fromJSON(const QString &json)
+{
+    QJsonDocument obj = QJsonDocument::fromJson(json.toUtf8());
+
+    /*for (const auto node: obj.array())
+    {
+        auto newNode = addNode();
+        newNode->fromJSON(node.toObject());
+    }
+
+    for (const auto& node: _nodes)
+    {
+    }*/
 }

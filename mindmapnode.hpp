@@ -5,8 +5,9 @@
 
 #include <QObject>
 #include <QJsonValue>
+#include "jsonserializable.hpp"
 
-class MindmapNode: public QObject
+class MindmapNode: public QObject, public JSONSerializable
 {
     Q_OBJECT
 private:
@@ -21,11 +22,9 @@ private:
 public:
     MindmapNode(NodeId nodeId,
                 const QString& content);
+    ~MindmapNode();
 
     NodeId getNodeId() const;
-
-    QJsonValue toJSON() const;
-    void fromJSON(const QJsonObject& jsonObject);
 
     void setContent(const QString& content);
     QString getContent() const;
@@ -43,6 +42,9 @@ public:
     void setHeight(qreal height);
 
     void setBoundaries(qreal x, qreal y, qreal width, qreal height);
+
+    QJsonValue toJSON() const override;
+    void fromJSON(const QString &json) override;
 };
 
 Q_DECLARE_METATYPE(MindmapNode*)

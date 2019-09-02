@@ -12,7 +12,9 @@ MindmapNodeGraphicsItem::MindmapNodeGraphicsItem(NodeRawPtr node, QObject *paren
 
     _textContainer = new QGraphicsTextItem(this);
 
-    _textContainer->setPos(_node->getX(), _node->getY());
+    auto centerX = _node->getX() + (_node->getWidth() / 4.0);
+    auto centerY = _node->getY() + (_node->getHeight() / 4.0);
+    _textContainer->setPos(centerX, centerY);
     changeNodeContent(node->getContent());
 
     resize();

@@ -13,8 +13,11 @@ MindmapNode::MindmapNode(NodeId nodeId, const QString& content):
     auto cos = qRadiansToDegrees(qCos(qreal(_nodeId)));
 
     setBoundaries(cos * 4.0, sin * 4.0, 120.0, 40.0);
+}
 
-    //
+MindmapNode::~MindmapNode()
+{
+
 }
 
 NodeId MindmapNode::getNodeId() const
@@ -28,23 +31,24 @@ QJsonValue MindmapNode::toJSON() const
     json["id"] = QVariant(static_cast<unsigned int>(_nodeId)).toInt();
     json["content"] = _content;
 
-    /*const auto& rect = sceneBoundingRect();
-
-    json["x"] = rect.x();
-    json["y"] = rect.y();
-    json["w"] = rect.width();
-    json["h"] = rect.height();*/
+    json["x"] = _x;
+    json["y"] = _y;
+    json["w"] = _width;
+    json["h"] = _height;
 
     return json;
 }
 
-void MindmapNode::fromJSON(const QJsonObject &jsonObject)
+void MindmapNode::fromJSON(const QString &json)
 {
+    QJsonObject jsonObject = QJsonValue(json).toObject();
+
     auto x = jsonObject["x"].toDouble();
     auto y = jsonObject["y"].toDouble();
     auto w = jsonObject["w"].toDouble();
     auto h = jsonObject["h"].toDouble();
-    //setRect(x, y, w, h);
+
+    setBoundaries(x, y, w, h);
 
     setContent(jsonObject["content"].toString());
 }
@@ -52,7 +56,6 @@ void MindmapNode::fromJSON(const QJsonObject &jsonObject)
 void MindmapNode::setContent(const QString& content)
 {
     _content = content;
-    //_textContainer->setPlainText(_content);
 }
 
 QString MindmapNode::getContent() const
@@ -106,6 +109,4 @@ void MindmapNode::setBoundaries(qreal x, qreal y, qreal width, qreal height)
     _y = y;
     _width = width;
     _height = height;
-
-    qDebug() << _x << " " << _y << " " << _width << " " << _height;
 }

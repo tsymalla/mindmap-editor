@@ -4,8 +4,9 @@
 #include <QGraphicsScene>
 #include "mindmap.hpp"
 #include "mindmapnodegraphicsitem.hpp"
+#include "jsonserializable.hpp"
 
-class MindmapScene : public QGraphicsScene
+class MindmapScene : public QGraphicsScene, public JSONSerializable
 {
     Q_OBJECT
 private:
@@ -21,8 +22,10 @@ private:
     void _focusSelection(MindmapNodeGraphicsItem* item);
 public:
     MindmapScene(QObject* parent = nullptr);
-    QString toJSON() const;
-    void fromJSON(const QString& json);
+    ~MindmapScene();
+
+    void fromJSON(const QString &json) override;
+    QJsonValue toJSON() const override;
 
     void addNode();
     void addNode(const QString& nodeName);
