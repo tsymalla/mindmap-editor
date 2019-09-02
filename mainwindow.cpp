@@ -123,7 +123,7 @@ void MainWindow::on_action_Open_file_triggered()
         {
             QTextStream stream(&file);
             QString data = stream.readAll();
-            _mindmapScene->fromJSON(data);
+            _mindmapScene->fromJSON(QJsonValue(data));
             file.close();
 
             _currentFileName = QFileInfo(fileName).fileName();

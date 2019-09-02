@@ -27,9 +27,15 @@ MindmapScene::~MindmapScene()
 
 }
 
-void MindmapScene::fromJSON(const QString &json)
+void MindmapScene::fromJSON(const QJsonValue &json)
 {
+    clear();
     _mindmap.fromJSON(json);
+
+    for (const auto& node: _mindmap.getNodes())
+    {
+        addNode(node);
+    }
 }
 
 QJsonValue MindmapScene::toJSON() const
@@ -77,9 +83,26 @@ void MindmapScene::addNode(const QString& nodeName)
     _focusSelection(graphicsNode);
 }
 
+void MindmapScene::addNode(NodeRawPtr rawNode)
+{
+    auto graphicsNode = new MindmapNodeGraphicsItem(rawNode);
+    _selectedGraphicsNode = nullptr;
+
+    graphicsNode->setBrush(_brush);
+    graphicsNode->setPen(_pen);
+
+    connect(graphicsNode, &MindmapNodeGraphicsItem::selected, this, &MindmapScene::nodeSelectionChanged);
+    connect(graphicsNode, &MindmapNodeGraphicsItem::positionChanged, this, &MindmapScene::nodePositionChanged);
+    connect(graphicsNode, &MindmapNodeGraphicsItem::doubleClicked, this, &MindmapScene::nodeDoubleClicked);
+
+    this->addItem(graphicsNode);
+    _focusSelection(graphicsNode);
+}
+
 void MindmapScene::reset()
 {
     _selectedNode = nullptr;
+    _selectedGraphicsNode = nullptr;
 
     _mindmap.clear();
     clear();

@@ -8,7 +8,7 @@ class JSONSerializable
 {
 public:
     virtual QJsonValue toJSON() const = 0;
-    virtual void fromJSON(const QString &json) = 0;
+    virtual void fromJSON(const QJsonValue &json) = 0;
 
     virtual ~JSONSerializable() {}
 };

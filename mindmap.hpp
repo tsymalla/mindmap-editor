@@ -27,7 +27,7 @@ private:
 
 public:
     Mindmap(QObject* parent = nullptr);
-    ~Mindmap();
+    ~Mindmap() override;
 
     NodeRawPtr addNode(const NodeRawPtr parent = nullptr);
     NodeRawPtr addNode(const QString& content, const NodeRawPtr parent = nullptr);
@@ -35,6 +35,7 @@ public:
     int getNodeCount() const;
     bool removeNode(NodeRawPtr node);
     NodeRawPtr getLastNode() const;
+    std::vector<NodeRawPtr> getNodes() const;
 
     EdgeList getEdgesFromNode(const NodeId nodeId) const;
     EdgeList getAdjacentNodesFromNode(const NodeId nodeId) const;
@@ -42,7 +43,7 @@ public:
     void clear();
 
     QJsonValue toJSON() const override;
-    void fromJSON(const QString &json) override;
+    void fromJSON(const QJsonValue &json) override;
 };
 
 #endif // MINDMAP_HPP

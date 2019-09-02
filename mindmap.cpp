@@ -11,7 +11,7 @@ Mindmap::Mindmap(QObject* parent): QObject{parent}, _lastNodeId{0}
 
 Mindmap::~Mindmap()
 {
-
+    clear();
 }
 
 NodeRawPtr Mindmap::addNode(const NodeRawPtr parent)
@@ -87,9 +87,22 @@ NodeRawPtr Mindmap::getLastNode() const
     return _nodes.begin()->second.get();
 }
 
+std::vector<NodeRawPtr> Mindmap::getNodes() const
+{
+    std::vector<NodeRawPtr> nodesCopy;
+    nodesCopy.reserve(_nodes.size());
+
+    for (const auto& node: _nodes)
+    {
+        nodesCopy.push_back(node.second.get());
+    }
+
+    return nodesCopy;
+}
+
 EdgeList Mindmap::getEdgesFromNode(const NodeId nodeId) const
 {
-
+    return {};
 }
 
 EdgeList Mindmap::getAdjacentNodesFromNode(const NodeId nodeId) const
@@ -130,27 +143,23 @@ QJsonValue Mindmap::toJSON() const
 {
     QJsonArray arr;
 
-    /*for (const auto& node: _nodes)
+    for (const auto& node: _nodes)
     {
         arr.append(node.second->toJSON());
-    }*/
+    }
 
     QJsonDocument doc(arr);
 
     return QString(doc.toJson(QJsonDocument::Compact));
 }
 
-void Mindmap::fromJSON(const QString &json)
+void Mindmap::fromJSON(const QJsonValue &json)
 {
-    QJsonDocument obj = QJsonDocument::fromJson(json.toUtf8());
+    QJsonDocument obj = QJsonDocument::fromJson(json.toString().toUtf8());
 
-    /*for (const auto node: obj.array())
+    for (const auto node: obj.array())
     {
         auto newNode = addNode();
-        newNode->fromJSON(node.toObject());
+        newNode->fromJSON(node);
     }
-
-    for (const auto& node: _nodes)
-    {
-    }*/
 }

@@ -39,15 +39,17 @@ QJsonValue MindmapNode::toJSON() const
     return json;
 }
 
-void MindmapNode::fromJSON(const QString &json)
+void MindmapNode::fromJSON(const QJsonValue &json)
 {
-    QJsonObject jsonObject = QJsonValue(json).toObject();
+    QJsonObject jsonObject = json.toObject();
 
+    auto id = jsonObject["id"].toInt();
     auto x = jsonObject["x"].toDouble();
     auto y = jsonObject["y"].toDouble();
     auto w = jsonObject["w"].toDouble();
     auto h = jsonObject["h"].toDouble();
 
+    _nodeId = 0;
     setBoundaries(x, y, w, h);
 
     setContent(jsonObject["content"].toString());

@@ -22,7 +22,7 @@ private:
 public:
     MindmapNode(NodeId nodeId,
                 const QString& content);
-    ~MindmapNode();
+    ~MindmapNode() override;
 
     NodeId getNodeId() const;
 
@@ -44,7 +44,7 @@ public:
     void setBoundaries(qreal x, qreal y, qreal width, qreal height);
 
     QJsonValue toJSON() const override;
-    void fromJSON(const QString &json) override;
+    void fromJSON(const QJsonValue &json) override;
 };
 
 Q_DECLARE_METATYPE(MindmapNode*)

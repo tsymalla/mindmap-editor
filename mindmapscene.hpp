@@ -22,13 +22,15 @@ private:
     void _focusSelection(MindmapNodeGraphicsItem* item);
 public:
     MindmapScene(QObject* parent = nullptr);
-    ~MindmapScene();
+    ~MindmapScene() override;
 
-    void fromJSON(const QString &json) override;
+    void fromJSON(const QJsonValue &json) override;
     QJsonValue toJSON() const override;
 
     void addNode();
     void addNode(const QString& nodeName);
+    void addNode(NodeRawPtr rawNode);
+
     void removeSelectedNodes();
     void changeNodeContent(MindmapNodeGraphicsItem* item, const QString& content);
 
