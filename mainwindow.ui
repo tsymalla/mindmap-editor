@@ -26,7 +26,7 @@
      <x>0</x>
      <y>0</y>
      <width>1024</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">
@@ -37,6 +37,7 @@
     <addaction name="separator"/>
     <addaction name="action_Open_file"/>
     <addaction name="action_Save"/>
+    <addaction name="action_Save_as"/>
     <addaction name="separator"/>
     <addaction name="actionExport"/>
     <addaction name="separator"/>
@@ -75,7 +76,7 @@
    <addaction name="action_New_Mindmap"/>
    <addaction name="separator"/>
    <addaction name="action_Open_file"/>
-   <addaction name="action_Save"/>
+   <addaction name="action_Save_as"/>
    <addaction name="separator"/>
    <addaction name="actionAdd_Node"/>
    <addaction name="actionRemove_node"/>
@@ -110,16 +111,13 @@
     <string>Ctrl+O</string>
    </property>
   </action>
-  <action name="action_Save">
+  <action name="action_Save_as">
    <property name="icon">
     <iconset resource="icons.qrc">
      <normaloff>:/icons/save.ico</normaloff>:/icons/save.ico</iconset>
    </property>
    <property name="text">
-    <string>&amp;Save</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+S</string>
+    <string>&amp;Save as...</string>
    </property>
   </action>
   <action name="action_Exit">
@@ -193,6 +191,14 @@
   <action name="actionExport">
    <property name="text">
     <string>E&amp;xport as image...</string>
+   </property>
+  </action>
+  <action name="action_Save">
+   <property name="text">
+    <string>&amp;Save</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
    </property>
   </action>
  </widget>

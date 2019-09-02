@@ -31,6 +31,8 @@ private slots:
     void on_actionExport_triggered();
     void onMindmapChange(bool wasSaved);
 
+    void on_action_Save_as_triggered();
+
 signals:
     void notifyMindmapChanged(bool wasSaved);
 
@@ -41,9 +43,12 @@ private:
     About* _about;
 
     bool _fileHasChanged = false;
+    bool _fileExists = false;
+    QString _currentFilePath;
     QString _currentFileName;
 
     bool _shouldSave();
+    void _overwriteFile(const QString& filePath);
 };
 
 #endif // MAINWINDOW_H

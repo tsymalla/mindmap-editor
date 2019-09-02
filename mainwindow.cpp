@@ -26,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(_mindmapScene, &MindmapScene::notifyMindmapChanged, this, &MainWindow::onMindmapChange);
 
     _currentFileName = "Untitled";
+    _currentFilePath = "";
     _mindmapScene->reset();
 }
 
@@ -64,28 +65,14 @@ void MainWindow::on_action_Exit_triggered()
 
 void MainWindow::on_action_Save_triggered()
 {
-    auto fileName = QFileDialog::getSaveFileName(this, tr("Save file..."), QDir::currentPath(), tr("SimpleMind files (*.mmp)"));
-
-    if (!fileName.isNull())
+    if (!_fileExists)
     {
-        if (!fileName.endsWith(tr(".mmp")))
-        {
-            fileName += ".mmp";
-        }
-
-        QFile file(fileName);
-
-        if (file.open(QIODevice::WriteOnly))
-        {
-            QTextStream stream(&file);
-            stream << _mindmapScene->toJSON().toString();
-            file.close();
-
-            _currentFileName = QFileInfo(fileName).fileName();
-
-            emit notifyMindmapChanged(true);
-        }
+        on_action_Save_as_triggered();
+        return;
     }
+
+    _overwriteFile(_currentFilePath);
+    emit notifyMindmapChanged(true);
 }
 
 void MainWindow::on_action_New_Mindmap_triggered()
@@ -97,6 +84,7 @@ void MainWindow::on_action_New_Mindmap_triggered()
 
     _currentFileName = "Untitled";
     _mindmapScene->reset();
+    _fileExists = false;
 
     emit notifyMindmapChanged(true);
 }
@@ -113,11 +101,11 @@ void MainWindow::on_action_Open_file_triggered()
         on_action_Save_triggered();
     }
 
-    auto fileName = QFileDialog::getOpenFileName(this, tr("Open file..."), QDir::currentPath(), tr("SimpleMind files (*.mmp)"));
+    auto filename = QFileDialog::getOpenFileName(this, tr("Open file..."), QDir::currentPath(), tr("SimpleMind files (*.mmp)"));
 
-    if (!fileName.isNull())
+    if (!filename.isNull())
     {
-        QFile file(fileName);
+        QFile file(filename);
 
         if (file.open(QIODevice::ReadOnly))
         {
@@ -126,7 +114,9 @@ void MainWindow::on_action_Open_file_triggered()
             _mindmapScene->fromJSON(QJsonValue(data));
             file.close();
 
-            _currentFileName = QFileInfo(fileName).fileName();
+            _currentFilePath = filename;
+            _currentFileName = QFileInfo(filename).fileName();
+            _fileExists = true;
 
             // new opened file was not changed yet, show no indicator
             emit notifyMindmapChanged(true);
@@ -194,4 +184,37 @@ bool MainWindow::_shouldSave()
     auto button = QMessageBox::information(this, tr("The mindmap has been changed."), tr("Do you want to save your changes?"), QMessageBox::Save | QMessageBox::Discard);
 
     return (button == QMessageBox::Save);
+}
+
+void MainWindow::_overwriteFile(const QString& filePath)
+{
+    QFile file(filePath);
+
+    if (file.open(QIODevice::WriteOnly))
+    {
+        QTextStream stream(&file);
+        stream << _mindmapScene->toJSON().toString();
+        file.close();
+
+        _currentFilePath = filePath;
+        _currentFileName = QFileInfo(_currentFilePath).fileName();
+
+        emit notifyMindmapChanged(true);
+    }
+}
+
+void MainWindow::on_action_Save_as_triggered()
+{
+    auto filename = QFileDialog::getSaveFileName(this, tr("Save file..."), QDir::currentPath(), tr("SimpleMind files (*.mmp)"));
+
+    if (!filename.isNull())
+    {
+        if (!filename.endsWith(tr(".mmp")))
+        {
+            filename += ".mmp";
+        }
+
+        _overwriteFile(filename);
+        _fileExists = true;
+    }
 }

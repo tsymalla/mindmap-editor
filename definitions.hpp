@@ -8,7 +8,7 @@
 class MindmapNode;
 class MindmapEdge;
 
-using NodeId = uint16_t;
+using NodeId = int;
 using NodeRawPtr = MindmapNode*;
 using EdgeRawPtr = MindmapEdge*;
 using NodeList = std::vector<NodeRawPtr>;

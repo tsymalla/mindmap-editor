@@ -49,7 +49,7 @@ void MindmapNode::fromJSON(const QJsonValue &json)
     auto w = jsonObject["w"].toDouble();
     auto h = jsonObject["h"].toDouble();
 
-    _nodeId = 0;
+    _nodeId = id;
     setBoundaries(x, y, w, h);
 
     setContent(jsonObject["content"].toString());
